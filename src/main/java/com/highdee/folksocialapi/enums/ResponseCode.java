@@ -6,7 +6,8 @@ public enum ResponseCode {
 
     // Errors
     SERVER_ERROR("ERR500", "An error occured!"),
-    VALIDATION_ERROR("ERR001", "Validation error occurred");
+    VALIDATION_ERROR("ERR001", "Validation error occurred"),
+    INVALID_CREDENTIAL("ERR002", "Invalid credentials");
 
     private final String code;
     private final String message;

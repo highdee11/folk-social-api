@@ -1,5 +1,6 @@
 package com.highdee.folksocialapi.dto.response;
 
+import com.highdee.folksocialapi.enums.ResponseCode;
 import org.springframework.lang.Nullable;
 
 public class RestResponse<T> {
@@ -13,5 +14,13 @@ public class RestResponse<T> {
         this.code = code;
         this.message = message;
         this.data = data;
+    }
+
+    public static<T> RestResponse<T> success(T data){
+        return new RestResponse(
+                ResponseCode.REQUEST_SUCCESSFUL.getCode(),
+                ResponseCode.REQUEST_SUCCESSFUL.getMessage(),
+                data
+        );
     }
 }

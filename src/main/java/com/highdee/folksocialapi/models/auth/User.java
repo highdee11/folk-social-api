@@ -12,7 +12,6 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private long id;
 
     @Column(name = "firstname")
@@ -21,17 +20,17 @@ public class User {
     @Column(name = "lastname")
     private String lastName;
 
-    @Column(name = "email", unique = true)
+    @Column(unique = true)
     private String email;
 
-    @Column(name = "dob", nullable = true)
+    @Column(nullable = true)
     private LocalDate dob;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "password", nullable = false)
+    @Column(nullable = false)
     private String password;
 
     public void setPassword(String password) {
@@ -39,6 +38,7 @@ public class User {
     }
 
     public long getId() {
+
         return id;
     }
 
@@ -64,6 +64,10 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public LocalDate getDob() {

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 @RestControllerAdvice
@@ -33,9 +34,10 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<RestResponse> handleOtherError(Exception ex){
+    public ResponseEntity<RestResponse<Object>> handleOtherError(Exception ex){
+        System.out.println(ex.getMessage());
         ResponseCode responseCode = ResponseCode.SERVER_ERROR;
-        RestResponse response = new RestResponse(responseCode.getCode(), ex.getMessage(), null);
+        RestResponse<Object> response = new RestResponse<Object>(responseCode.getCode(), ex.getMessage(), null);
         return ResponseEntity.status(400).body(response);
     }
 }

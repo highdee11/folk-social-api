@@ -1,9 +1,14 @@
 package com.highdee.folksocialapi.services;
 
 import com.highdee.folksocialapi.dto.request.auth.CreateUserRequest;
+import com.highdee.folksocialapi.dto.request.auth.UserLoginRequest;
+import com.highdee.folksocialapi.dto.response.auth.UserSignInResponse;
 import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.repositories.auth.UserRepository;
+import com.highdee.folksocialapi.services.auth.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +17,12 @@ public class UserService {
 
     final UserRepository userRepository;
 
+    final AuthenticationManager authenticationManager;
+
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
+        this.authenticationManager = authenticationManager;
     }
 
     public User create(CreateUserRequest request){
@@ -31,5 +39,27 @@ public class UserService {
         }
 
         return userRepository.save(user);
+    }
+
+    public UserSignInResponse Login(UserLoginRequest loginRequest){
+
+        // Authenticate user
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.email, loginRequest.password));
+
+        // Retrieve user
+        User user = userRepository.findByEmail(loginRequest.email);
+
+        String token = (new JwtService()).generateToken(user.getEmail());
+
+        // Build login response
+        UserSignInResponse userSignInResponse = new UserSignInResponse();
+        userSignInResponse.setId(String.valueOf(user.getId()));
+        userSignInResponse.setEmail(user.getEmail());
+        userSignInResponse.setFirstname(user.getFirstName());
+        userSignInResponse.setLastname(user.getLastName());
+        userSignInResponse.setToken(token);
+
+
+        return userSignInResponse;
     }
 }
