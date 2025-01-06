@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-
     final UserRepository userRepository;
 
     final AuthenticationManager authenticationManager;
@@ -44,14 +43,13 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public UserSignInResponse Login(UserLoginRequest loginRequest){
+    public UserSignInResponse login(UserLoginRequest loginRequest){
 
         // Authenticate user
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.email, loginRequest.password));
 
         // Retrieve user
         User user = userRepository.findByEmail(loginRequest.email);
-
         String token = jwtService.generateToken(user.getEmail());
 
         // Build login response

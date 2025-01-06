@@ -39,7 +39,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<RestResponse> login(@Valid @RequestBody UserLoginRequest request){
         try {
-            UserSignInResponse response = userService.Login(request);
+            UserSignInResponse response = userService.login(request);
             return ResponseEntity.status(200).body(RestResponse.success(response));
         }catch (AuthenticationException exception){
             ResponseCode code = ResponseCode.INVALID_CREDENTIAL;

@@ -26,4 +26,23 @@ public class CreateUserRequest {
     @NotBlank(message="Password is required")
     public String password;
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
