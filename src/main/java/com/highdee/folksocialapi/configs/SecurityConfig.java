@@ -1,5 +1,6 @@
 package com.highdee.folksocialapi.configs;
 
+import com.highdee.folksocialapi.services.auth.JwtAuthenticationFilter;
 import com.highdee.folksocialapi.services.auth.UserDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +15,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
-
     private final UserDetailService userDetailService;
 
     public SecurityConfig(UserDetailService userDetailService){
@@ -35,7 +36,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll() // Allow public endpoints
                         .anyRequest().authenticated() // Authenticate all other requests
-                );
+                ).addFilterAfter(new JwtAuthenticationFilter(userDetailService), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
