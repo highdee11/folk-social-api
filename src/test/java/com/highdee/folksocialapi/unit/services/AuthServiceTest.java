@@ -1,10 +1,11 @@
-package com.highdee.folksocialapi.services;
+package com.highdee.folksocialapi.unit.services;
 
 import com.highdee.folksocialapi.dto.request.auth.CreateUserRequest;
 import com.highdee.folksocialapi.dto.request.auth.UserLoginRequest;
 import com.highdee.folksocialapi.dto.response.auth.UserSignInResponse;
 import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.repositories.auth.UserRepository;
+import com.highdee.folksocialapi.services.UserService;
 import com.highdee.folksocialapi.services.auth.JwtService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,8 @@ public class AuthServiceTest {
 
     @Mock
     JwtService jwtService;
-    @InjectMocks UserService userService;
+    @InjectMocks
+    UserService userService;
 
     @BeforeEach
     void setUp() {

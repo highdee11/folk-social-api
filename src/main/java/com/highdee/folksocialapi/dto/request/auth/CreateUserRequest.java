@@ -45,4 +45,24 @@ public class CreateUserRequest {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }
