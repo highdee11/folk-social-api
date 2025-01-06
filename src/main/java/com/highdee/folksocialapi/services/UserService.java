@@ -19,10 +19,13 @@ public class UserService {
 
     final AuthenticationManager authenticationManager;
 
+    final JwtService jwtService;
+
     @Autowired
-    public UserService(UserRepository userRepository, AuthenticationManager authenticationManager) {
+    public UserService(UserRepository userRepository, AuthenticationManager authenticationManager, JwtService jwtService) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
     }
 
     public User create(CreateUserRequest request){
@@ -49,7 +52,7 @@ public class UserService {
         // Retrieve user
         User user = userRepository.findByEmail(loginRequest.email);
 
-        String token = (new JwtService()).generateToken(user.getEmail());
+        String token = jwtService.generateToken(user.getEmail());
 
         // Build login response
         UserSignInResponse userSignInResponse = new UserSignInResponse();

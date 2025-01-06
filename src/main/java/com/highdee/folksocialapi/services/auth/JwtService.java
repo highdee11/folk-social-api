@@ -2,23 +2,28 @@ package com.highdee.folksocialapi.services.auth;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 
-@Component
+@Service
 public class JwtService {
 
-    private final String secretKey = "IigFpei8r5aeuNC0ZSqJxJmW/i4FzGx7up610oiBNdw=";
-    private final Key key;
+    @Value("${folk.social.api.secretkey}")
+    private String secretkey;
 
-    public JwtService() {
-        byte[] keyBytes = Base64.getDecoder().decode(secretKey);
-        this.key = Keys.hmacShaKeyFor(keyBytes);
+    private Key getKey(){
+        byte[] keyBytes = Base64.getDecoder().decode(secretkey);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String generateToken(String email) {
+        Key key = this.getKey();
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date())
@@ -28,6 +33,7 @@ public class JwtService {
     }
 
     public String extractEmail(String token) {
+        Key key = this.getKey();
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
     }
 
@@ -36,6 +42,7 @@ public class JwtService {
     }
 
     private boolean isTokenExpired(String token) {
+        Key key = this.getKey();
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration().before(new Date());
     }
 }

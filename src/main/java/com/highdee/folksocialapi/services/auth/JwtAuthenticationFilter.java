@@ -9,6 +9,7 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,9 +27,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
 
 
-    public JwtAuthenticationFilter(UserDetailService userDetailService) {
+    public JwtAuthenticationFilter(UserDetailService userDetailService, JwtService jwtService) {
         this.userDetailService = userDetailService;
-        this.jwtService = new JwtService();
+        this.jwtService = jwtService;
     }
 
 

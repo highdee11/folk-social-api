@@ -8,6 +8,7 @@ import com.highdee.folksocialapi.enums.ResponseCode;
 import com.highdee.folksocialapi.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     final UserService userService;
+
+    @Value("${folk.social.api.secretkey}")
+    private String secretkey;
 
     @Autowired
     public AuthController(UserService userService){
