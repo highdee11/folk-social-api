@@ -5,7 +5,6 @@ import com.highdee.folksocialapi.dto.request.auth.UserLoginRequest;
 import com.highdee.folksocialapi.dto.response.auth.UserSignInResponse;
 import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.repositories.auth.UserRepository;
-import com.highdee.folksocialapi.services.auth.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,10 +1,8 @@
 package com.highdee.folksocialapi.services.auth;
+import com.highdee.folksocialapi.services.JwtService;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -12,7 +10,7 @@ import java.util.Base64;
 import java.util.Date;
 
 @Service
-public class JwtService {
+public class JwtServiceImpl implements JwtService {
 
     @Value("${folk.social.api.secretkey}")
     private String secretkey;
@@ -41,7 +39,7 @@ public class JwtService {
         return email.equals(extractEmail(token)) && !isTokenExpired(token);
     }
 
-    private boolean isTokenExpired(String token) {
+    public boolean isTokenExpired(String token) {
         Key key = this.getKey();
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration().before(new Date());
     }

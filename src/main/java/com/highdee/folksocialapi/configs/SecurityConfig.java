@@ -1,7 +1,7 @@
 package com.highdee.folksocialapi.configs;
 
-import com.highdee.folksocialapi.services.auth.JwtAuthenticationFilter;
-import com.highdee.folksocialapi.services.auth.JwtService;
+import com.highdee.folksocialapi.services.JwtService;
+import com.highdee.folksocialapi.services.auth.JwtAuthenticationFilter; 
 import com.highdee.folksocialapi.services.auth.UserDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

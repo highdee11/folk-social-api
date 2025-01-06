@@ -32,7 +32,6 @@ public class AuthServiceTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-
     @BeforeAll
     static void setup(@Autowired UserRepository userRepository){
         userRepository.deleteAll();

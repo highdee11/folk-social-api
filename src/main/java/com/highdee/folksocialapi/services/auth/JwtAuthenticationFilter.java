@@ -1,6 +1,7 @@
 package com.highdee.folksocialapi.services.auth;
 
 import com.highdee.folksocialapi.models.auth.User;
+import com.highdee.folksocialapi.services.JwtService;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
