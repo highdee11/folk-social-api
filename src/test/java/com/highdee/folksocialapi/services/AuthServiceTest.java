@@ -12,10 +12,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 
 import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -75,12 +78,24 @@ public class AuthServiceTest {
         savedUser.setPassword("secret");
 
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(null);
-        when(userRepository.findByEmail(userLoginRequest.email)).thenReturn(savedUser);
-        when(jwtService.generateToken(userLoginRequest.email)).thenReturn("jwt-token");
+        when(userRepository.findByEmail(any(String.class))).thenReturn(savedUser);
+        when(jwtService.generateToken(any(String.class))).thenReturn("jwt-token");
 
         UserSignInResponse userSignInResponse = userService.login(userLoginRequest);
 
         assertEquals("test@gmail.com", userSignInResponse.email);
         assertEquals("jwt-token", userSignInResponse.token);
+    }
+
+    @Test
+    void testInValidLogin(){
+        UserLoginRequest userLoginRequest = new UserLoginRequest();
+        userLoginRequest.setEmail("test@gmail.com");
+        userLoginRequest.setPassword("secret");
+
+        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
+                .thenThrow(new BadCredentialsException(""));
+
+        assertThrows(AuthenticationException.class, ()-> userService.login(userLoginRequest));
     }
 }
