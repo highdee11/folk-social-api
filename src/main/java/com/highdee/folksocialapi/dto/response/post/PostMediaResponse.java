@@ -1,8 +1,15 @@
 package com.highdee.folksocialapi.dto.response.post;
 
+import com.highdee.folksocialapi.models.post.PostMedia;
+
 public class PostMediaResponse {
     public String type;
     public String url;
+
+    public PostMediaResponse(PostMedia postMedia) {
+        this.type = postMedia.getType();
+        this.url = postMedia.getUrl();
+    }
 
     public String getType() {
         return type;

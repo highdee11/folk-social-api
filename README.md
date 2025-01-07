@@ -176,17 +176,65 @@ http://localhost:8080/api
       }
    }
    ```
+5. ** List Posts **:
+   - Endpoint: `GET /posts`
+     ```
+   - Response:
+   ```json
+   {
+    "code": "SUC001",
+    "message": "Request was successful",
+    "data": [
+        {
+            "id": 3,
+            "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
+            "createdAt": "2025-01-06T22:34:52",
+            "media": [
+                {
+                    "type": "image",
+                    "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
+            "createdAt": "2025-01-06T22:34:52",
+            "media": [
+                {
+                    "type": "image",
+                    "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
+                }
+            ]
+        }
+   ]
+   }
+   ```
+   
+6. ** Delete Post**:
+   - Endpoint: `DELETE /post/{id}`
+     ```
+   - Response:
+   ```json
+   {
+     "code": "SUC001",
+     "message": "Request was successful",
+     "data": null
+   }
+   ```
    
 ---
 
 ## API Endpoints
 
-| Method | Endpoint               | Description                |
-|--------|------------------------|----------------------------|
-| POST   | `/auth/create-account` | Register a new user        |
-| POST   | `/auth/login`          | Authenticate user          |
-| POST   | `/post`                | Create Post and Media      |
-| GET    | `/post/{id}`           | Get Single Post with Media |
+| Method | Endpoint               | Description                 |
+|--------|------------------------|-----------------------------|
+| POST   | `/auth/create-account` | Register a new user         |
+| POST   | `/auth/login`          | Authenticate user           |
+| POST   | `/post`                | Create Post and Media       |
+| GET    | `/posts`               | List Posts                  | 
+| GET    | `/post/{id}`           | Get Single Post with Media  |
+| DELETE | `/post/{id}`           | Delete Single Post          |
 
 ---
 

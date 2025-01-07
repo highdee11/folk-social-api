@@ -7,12 +7,17 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class PostResponse {
-
     private Long id;
     public String content;
     public LocalDateTime createdAt;
     public List<PostMediaResponse> media;
 
+    public PostResponse(Post post) {
+        this.id = post.getId();
+        this.content = post.getContent();
+        this.createdAt = post.getCreatedAt();
+        this.setMedia(post.getMediaList());
+    }
 
     public String getContent() {
         return content;
@@ -43,11 +48,6 @@ public class PostResponse {
     }
 
     public void setMedia(List<PostMedia> media) {
-        this.media = media.stream().map((PostMedia md)-> {
-            PostMediaResponse postMediaResponse = new PostMediaResponse();
-            postMediaResponse.setType(md.getType());
-            postMediaResponse.setUrl(md.getUrl());
-            return postMediaResponse;
-        }).toList();
+        this.media = media.stream().map(PostMediaResponse::new).toList();
     }
 }
