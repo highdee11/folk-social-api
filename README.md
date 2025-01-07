@@ -77,7 +77,7 @@ http://localhost:8080/api
 
 ### Authentication
 1. **Register**:
-    - Endpoint: `POST /auth/create-account`
+    - Endpoint: `POST /api/auth/create-account`
     - Body:
       ```json
       {
@@ -98,143 +98,141 @@ http://localhost:8080/api
       ```
 
 2. **Login**:
-    - Endpoint: `POST /auth/login`
+    - Endpoint: `POST /api/auth/login`
     - Body:
-    ```json
-      {
-        "email": "user@example.com",
-        "password": "securepassword"
-      }
-    ```
+      ```json
+        {
+          "email": "user@example.com",
+          "password": "securepassword"
+        }
+      ```
 
     - Response:
-    ```json
-      {
-        "code": "SUC001",
-        "message": "Request was successful",
-        "data": {
-          "id": "12",
-          "email": "highdee.ai@gmail.com",
-          "firstname": "Idowu",
-          "lastname": "Aladesiun",
-          "token": "Auth JWT token"
+      ```json
+        {
+          "code": "SUC001",
+          "message": "Request was successful",
+          "data": {
+            "id": "12",
+            "email": "highdee.ai@gmail.com",
+            "firstname": "Idowu",
+            "lastname": "Aladesiun",
+            "token": "Auth JWT token"
+          }
         }
-      }
-   ```
+      ```
 
 3. **Create Post**:
-   - Endpoint: `POST /post`
-   - Body:
-   ```json
-   {
-     "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
-     "media": [
-       {
-         "type": "IMAGE",
-         "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
-       }
-     ]
-   }
-   ```
-   - Response:
-   ```json
-    {
-      "code": "SUC001",
-      "message": "Request was successful",
-      "data": {
-        "id": 13,
-        "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
-        "createdAt": "2025-01-06T21:11:52",
-        "media": [
-            {
-                "type": "image",
+      - Endpoint: `POST /api/post`
+      - Body:
+        ```json
+          {
+            "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
+            "media": [
+              {
+                "type": "IMAGE",
                 "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
+              }
+            ]
+          }
+        ```
+      - Response:
+         ```json
+            {
+              "code": "SUC001",
+              "message": "Request was successful",
+              "data": {
+              "id": 13,
+              "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
+              "createdAt": "2025-01-06T21:11:52",
+              "media": [
+                {
+                  "type": "image",
+                  "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
+                }
+              ]
+              }
             }
-        ]
-      }
-   }
-   ```
+          ```
 
 4. **Get Single Post**:
-   - Endpoint: `GET /post/{id}`
-   ```
-   - Response:
-   ```json
-    {
-      "code": "SUC001",
-      "message": "Request was successful",
-      "data": {
-        "id": 13,
-        "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
-        "createdAt": "2025-01-06T21:11:52",
-        "media": [
+      - Endpoint: `GET /api/post/{id}`
+      - Response:
+         ```json
             {
-                "type": "image",
-                "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
+              "code": "SUC001",
+              "message": "Request was successful",
+              "data": {
+                "id": 13,
+                "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
+                "createdAt": "2025-01-06T21:11:52",
+                "media": [
+                  {
+                   "type": "image",
+                    "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
+                  }
+                ]
+              }
             }
-        ]
-      }
-   }
-   ```
-5. ** List Posts **:
-   - Endpoint: `GET /posts`
-     ```
-   - Response:
-   ```json
-   {
-    "code": "SUC001",
-    "message": "Request was successful",
-    "data": [
-        {
-            "id": 3,
-            "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
-            "createdAt": "2025-01-06T22:34:52",
-            "media": [
-                {
+         ```
+        
+5. **List Posts**:
+      - Endpoint: `GET /api/posts`
+      - Response:
+        ```json
+          {
+            "code": "SUC001",
+            "message": "Request was successful",
+            "data": [
+              {
+                "id": 3,
+                "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
+                "createdAt": "2025-01-06T22:34:52",
+                "media": [
+                  {
                     "type": "image",
                     "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
-                }
-            ]
-        },
-        {
-            "id": 4,
-            "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
-            "createdAt": "2025-01-06T22:34:52",
-            "media": [
-                {
-                    "type": "image",
+                  }
+                ]
+              },
+              {
+                "id": 4,
+                "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
+                "createdAt": "2025-01-06T22:34:52",
+                "media": [
+                  {
+                     "type": "image",
                     "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
-                }
+                  }
+              ]
+              }
             ]
-        }
-   ]
-   }
-   ```
+          }
+        ```
    
-6. ** Delete Post**:
-   - Endpoint: `DELETE /post/{id}`
-     ```
-   - Response:
-   ```json
-   {
-     "code": "SUC001",
-     "message": "Request was successful",
-     "data": null
-   }
-   ```
+6. **Delete Post**:
+      - Endpoint: `DELETE /api/post/{id}`
+      - Response:
+        ```json
+           {
+               "code": "SUC001",
+               "message": "Request was successful",
+               "data": null
+           }
+        ```
    
 ---
 
 ## API Endpoints
 
-| Method | Endpoint               | Description                 |
-|--------|------------------------|-----------------------------|
-| POST   | `/auth/create-account` | Register a new user         |
-| POST   | `/auth/login`          | Authenticate user           |
-| POST   | `/post`                | Create Post and Media       |
-| GET    | `/posts`               | List Posts                  | 
-| GET    | `/post/{id}`           | Get Single Post with Media  |
-| DELETE | `/post/{id}`           | Delete Single Post          |
+| Method | Endpoint                   | Description                  |
+|--------|----------------------------|------------------------------|
+| POST   | `/api/auth/create-account` | Register a new user          |
+| POST   | `/api/auth/login`          | Authenticate user            |
+| POST   | `/api/post`                | Create Post and Media        |
+| GET    | `/api/posts`               | List Posts                   | 
+| GET    | `/api/post/{id}`           | Get Single Post with Media   |
+| DELETE | `/api/post/{id}`           | Delete Single Post           |
 
 ---
 
