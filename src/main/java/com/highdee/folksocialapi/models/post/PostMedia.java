@@ -1,5 +1,6 @@
 package com.highdee.folksocialapi.models.post;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,14 +11,16 @@ public class PostMedia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "post_id")
-    private Long postId;
-
     @Column
     private String type;
 
     @Column
     private String url;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id", nullable = false)
+    @JsonIgnore
+    private Post post;
 
     public Long getId() {
         return id;
@@ -27,12 +30,12 @@ public class PostMedia {
         this.id = id;
     }
 
-    public Long getPostId() {
-        return postId;
+    public Post getPost() {
+        return post;
     }
 
-    public void setPostId(Long postId) {
-        this.postId = postId;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     public String getType() {

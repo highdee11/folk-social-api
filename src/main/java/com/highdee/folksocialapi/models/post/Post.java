@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "posts")
@@ -22,6 +24,9 @@ public class Post {
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostMedia> mediaList = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -49,6 +54,10 @@ public class Post {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public List<PostMedia> getMediaList() {
+        return mediaList;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {

@@ -1,6 +1,7 @@
 package com.highdee.folksocialapi.services.post;
 
 import com.highdee.folksocialapi.dto.request.post.PostMediaRequest;
+import com.highdee.folksocialapi.models.post.Post;
 import com.highdee.folksocialapi.models.post.PostMedia;
 import com.highdee.folksocialapi.repositories.post.PostMediaRepository;
 import org.springframework.stereotype.Service;
@@ -14,9 +15,9 @@ public class MediaServiceImpl implements  MediaService{
         this.postMediaRepository = postMediaRepository;
     }
 
-    public PostMedia create(PostMediaRequest request, Long postId){
+    public PostMedia create(PostMediaRequest request, Post post){
         PostMedia postMedia = new PostMedia();
-        postMedia.setPostId(postId);
+        postMedia.setPost(post);
         postMedia.setType(request.getType());
         postMedia.setUrl(request.getUrl());
 
