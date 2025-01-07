@@ -77,7 +77,7 @@ http://localhost:8080/api
 
 ### Authentication
 1. **Register**:
-    - Endpoint: `POST /auth/register`
+    - Endpoint: `POST /auth/create-account`
     - Body:
       ```json
       {
@@ -154,10 +154,11 @@ http://localhost:8080/api
 
 ## API Endpoints
 
-| Method | Endpoint               | Description                     |
-|--------|------------------------|---------------------------------|
-| POST   | `/auth/register`       | Register a new user             |
-| POST   | `/auth/login`          | Authenticate user               |
+| Method | Endpoint               | Description             |
+|--------|------------------------|-------------------------|
+| POST   | `/auth/create-account` | Register a new user     |
+| POST   | `/auth/login`          | Authenticate user       |
+| POST   | `/post`                | Create Post and Media   |
 
 ---
 
