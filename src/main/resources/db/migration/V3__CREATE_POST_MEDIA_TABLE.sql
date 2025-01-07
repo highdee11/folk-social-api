@@ -1,4 +1,4 @@
-CREATE TABLE media (
+CREATE TABLE post_media (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     post_id BIGINT NOT NULL,
     type ENUM('image', 'video') NOT NULL,

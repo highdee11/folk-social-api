@@ -2,6 +2,7 @@ package com.highdee.folksocialapi.exceptions.handlers;
 
 import com.highdee.folksocialapi.dto.response.RestResponse;
 import com.highdee.folksocialapi.enums.ResponseCode;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class GlobalExceptionHandler {
         ResponseCode resp = ResponseCode.VALIDATION_ERROR;
 
         return ResponseEntity
-                .status(500)
+                .status(400)
                 .body(new RestResponse<>(resp.getCode(), resp.getMessage(), error));
     }
 

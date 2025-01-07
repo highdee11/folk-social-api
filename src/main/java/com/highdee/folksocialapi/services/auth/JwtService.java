@@ -1,4 +1,4 @@
-package com.highdee.folksocialapi.services;
+package com.highdee.folksocialapi.services.auth;
 
 public interface JwtService {
 

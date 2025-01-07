@@ -1,5 +1,4 @@
 package com.highdee.folksocialapi.services.auth;
-import com.highdee.folksocialapi.services.JwtService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;

@@ -22,7 +22,7 @@ public class UserDetailService implements UserDetailsService {
         if(user == null) throw new UsernameNotFoundException("User doesn't exist");
 
         return org.springframework.security.core.userdetails.User
-                .withUsername(user.getEmail())
+                .withUsername(String.valueOf(user.getId()))
                 .password(user.getPassword())
                 .build();
     }
