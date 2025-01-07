@@ -142,6 +142,7 @@ http://localhost:8080/api
       "code": "SUC001",
       "message": "Request was successful",
       "data": {
+        "id": 13,
         "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
         "createdAt": "2025-01-06T21:11:52",
         "media": [
@@ -154,15 +155,38 @@ http://localhost:8080/api
    }
    ```
 
+4**Get Single Post**:
+   - Endpoint: `GET /post/{id}`
+   ```
+   - Response:
+   ```json
+    {
+      "code": "SUC001",
+      "message": "Request was successful",
+      "data": {
+        "id": 13,
+        "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
+        "createdAt": "2025-01-06T21:11:52",
+        "media": [
+            {
+                "type": "image",
+                "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
+            }
+        ]
+      }
+   }
+   ```
+   
 ---
 
 ## API Endpoints
 
-| Method | Endpoint               | Description             |
-|--------|------------------------|-------------------------|
-| POST   | `/auth/create-account` | Register a new user     |
-| POST   | `/auth/login`          | Authenticate user       |
-| POST   | `/post`                | Create Post and Media   |
+| Method | Endpoint               | Description                |
+|--------|------------------------|----------------------------|
+| POST   | `/auth/create-account` | Register a new user        |
+| POST   | `/auth/login`          | Authenticate user          |
+| POST   | `/post`                | Create Post and Media      |
+| GET    | `/post/{id}`           | Get Single Post with Media |
 
 ---
 

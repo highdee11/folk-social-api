@@ -6,6 +6,8 @@ import com.highdee.folksocialapi.models.post.PostMedia;
 import com.highdee.folksocialapi.repositories.post.PostMediaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MediaServiceImpl implements  MediaService{
 
@@ -23,4 +25,5 @@ public class MediaServiceImpl implements  MediaService{
 
         return postMediaRepository.save(postMedia);
     }
+
 }

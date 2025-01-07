@@ -5,6 +5,7 @@ import com.highdee.folksocialapi.dto.request.post.PostMediaRequest;
 import com.highdee.folksocialapi.dto.response.post.PostResponse;
 import com.highdee.folksocialapi.models.post.Post;
 import com.highdee.folksocialapi.repositories.post.PostRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,19 +23,19 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post create(CreatePostRequest request, Long userId) {
+    public PostResponse create(CreatePostRequest request, Long userId) {
         // Create Post
         Post post = new Post();
         post.setUserId(userId);
         post.setContent(request.getContent());
-        Post newPost = postRepository.save(post);
+        final Post savedPost = postRepository.save(post);
 
         // Create each request
         request.getMedia().forEach((PostMediaRequest postMediaRequest)-> {
-            mediaService.create(postMediaRequest, newPost);
+            mediaService.create(postMediaRequest, savedPost);
         });
 
-        return newPost;
+        return getOne(savedPost.getId());
     }
 
     @Override
@@ -42,6 +43,7 @@ public class PostServiceImpl implements PostService {
         Post post =  postRepository.getById(postId);
 
         PostResponse postResponse = new PostResponse();
+        postResponse.setId(post.getId());
         postResponse.setContent(post.getContent());
         postResponse.setMedia(post.getMediaList());
         postResponse.setCreatedAt(post.getCreatedAt());

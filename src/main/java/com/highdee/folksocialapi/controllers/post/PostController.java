@@ -29,14 +29,14 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<RestResponse<Post>> create(@Valid @RequestBody CreatePostRequest request){
+    public ResponseEntity<RestResponse<PostResponse>> create(@Valid @RequestBody CreatePostRequest request){
 
         // Retrieve the user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userId = authentication.getName();
 
         // Create a new post
-        Post post = postService.create(request, Long.parseLong(userId));
+        PostResponse post = postService.create(request, Long.parseLong(userId));
 
         // Return success response
         return ResponseEntity.status(200).body(RestResponse.success(post));

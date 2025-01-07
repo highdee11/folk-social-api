@@ -1,14 +1,18 @@
 package com.highdee.folksocialapi.dto.response.post;
 
+import com.highdee.folksocialapi.models.post.Post;
 import com.highdee.folksocialapi.models.post.PostMedia;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class PostResponse {
+
+    private Long id;
     public String content;
     public LocalDateTime createdAt;
     public List<PostMediaResponse> media;
+
 
     public String getContent() {
         return content;
@@ -28,6 +32,14 @@ public class PostResponse {
 
     public List<PostMediaResponse> getMedia() {
         return media;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setMedia(List<PostMedia> media) {
