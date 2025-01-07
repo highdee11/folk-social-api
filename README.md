@@ -100,12 +100,12 @@ http://localhost:8080/api
 2. **Login**:
     - Endpoint: `POST /auth/login`
     - Body:
-      ```json
+    ```json
       {
         "email": "user@example.com",
         "password": "securepassword"
       }
-      ```
+    ```
 
     - Response:
     ```json
@@ -120,7 +120,7 @@ http://localhost:8080/api
           "token": "Auth JWT token"
         }
       }
-      ```
+   ```
 
 3. **Create Post**:
    - Endpoint: `POST /post`
@@ -136,9 +136,8 @@ http://localhost:8080/api
      ]
    }
    ```
-
    - Response:
-     ```json
+   ```json
      {
       "code": "SUC001",
       "message": "Request was successful",
@@ -149,7 +148,7 @@ http://localhost:8080/api
          "createdAt": "2025-01-06T21:11:51.724853"
        }
      }
-     ```
+   ```
 
 ---
 
