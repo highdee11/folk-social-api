@@ -155,7 +155,7 @@ http://localhost:8080/api
    }
    ```
 
-4**Get Single Post**:
+4. **Get Single Post**:
    - Endpoint: `GET /post/{id}`
    ```
    - Response:
