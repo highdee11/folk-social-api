@@ -81,10 +81,19 @@ http://localhost:8080/api
     - Body:
       ```json
       {
-        "email": "user@example.com",
-        "firstname": "John",
-        "lastname": "Doe",
-        "password": "securepassword"
+        "email": "highdee.ai+8@gmail.com",
+        "firstname": "Idowu",
+        "lastname": "Aladesiun",
+        "password": "secret",
+        "dob": "22-07-1996"
+       }
+      ```
+    - Response:
+      ```json
+      {
+        "code": "SUC001",
+        "message": "Request was successful",
+        "data": null
       }
       ```
 
@@ -99,15 +108,48 @@ http://localhost:8080/api
       ```
 
     - Response:
-      ```json
+    ```json
       {
-        "id": "1",
-        "email": "user@example.com",
-        "firstname": "John",
-        "lastname": "Doe",
-        "token": "your.jwt.token"
+        "code": "SUC001",
+        "message": "Request was successful",
+        "data": {
+          "id": "12",
+          "email": "highdee.ai@gmail.com",
+          "firstname": "Idowu",
+          "lastname": "Aladesiun",
+          "token": "Auth JWT token"
+        }
       }
       ```
+
+3. **Create Post**:
+   - Endpoint: `POST /post`
+   - Body:
+   ```json
+   {
+     "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
+     "media": [
+       {
+         "type": "IMAGE",
+         "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
+       }
+     ]
+   }
+   ```
+
+   - Response:
+     ```json
+     {
+      "code": "SUC001",
+      "message": "Request was successful",
+      "data": {
+         "id": 1,
+         "userId": 1,
+         "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
+         "createdAt": "2025-01-06T21:11:51.724853"
+       }
+     }
+     ```
 
 ---
 
