@@ -1,4 +1,4 @@
-# FolkSocial API
+# FolkSocial API - (Still in development)
 
 FolkSocial is a robust backend API designed to power a modern social media platform. The API facilitates user authentication, social interactions, and secure data management, enabling seamless integration for frontend applications.
 
