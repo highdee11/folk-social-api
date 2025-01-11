@@ -23,4 +23,8 @@ public class RestResponse<T> {
                 data
         );
     }
+
+    public T getData() {
+        return data;
+    }
 }

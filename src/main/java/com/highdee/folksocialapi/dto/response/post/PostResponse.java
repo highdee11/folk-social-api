@@ -12,6 +12,9 @@ public class PostResponse {
     public LocalDateTime createdAt;
     public List<PostMediaResponse> media;
 
+    public PostResponse() {
+    }
+
     public PostResponse(Post post) {
         this.id = post.getId();
         this.content = post.getContent();

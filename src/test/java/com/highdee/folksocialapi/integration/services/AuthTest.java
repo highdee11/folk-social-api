@@ -1,30 +1,30 @@
 package com.highdee.folksocialapi.integration.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.highdee.folksocialapi.GlobalTestSetupExtension;
 import com.highdee.folksocialapi.dto.request.auth.CreateUserRequest;
 import com.highdee.folksocialapi.dto.request.auth.UserLoginRequest;
+import com.highdee.folksocialapi.enums.ResponseCode;
 import com.highdee.folksocialapi.repositories.auth.UserRepository;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import java.time.LocalDate;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ExtendWith(GlobalTestSetupExtension.class)
 @AutoConfigureMockMvc
-public class AuthServiceTest {
+public class AuthTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -34,12 +34,11 @@ public class AuthServiceTest {
 
     @BeforeAll
     static void setup(@Autowired UserRepository userRepository){
-        userRepository.deleteAll();
-        System.out.println("Integration AuthService Test Begins");
+        System.out.println("Integration Auth Test Begins");
     }
     @AfterAll
     static void end(){
-        System.out.println("Integration AuthService Test Ended");
+        System.out.println("Integration Auth Test Ended");
     }
 
     @Test
@@ -55,8 +54,7 @@ public class AuthServiceTest {
                 post("/api/auth/create-account")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(createUserRequest)))
-                .andExpect(jsonPath("$.code").value("SUC001"));
-
+                .andExpect(jsonPath("$.code").value(ResponseCode.REQUEST_SUCCESSFUL.getCode()));
     }
 
     @Test
@@ -68,7 +66,7 @@ public class AuthServiceTest {
         mockMvc.perform(post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(userLoginRequest)))
-                .andExpect(jsonPath("$.code").value("SUC001"))
+                .andExpect(jsonPath("$.code").value(ResponseCode.REQUEST_SUCCESSFUL.getCode()))
                 .andExpect(jsonPath("$.data.token").isNotEmpty());
     }
 }
