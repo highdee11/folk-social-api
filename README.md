@@ -121,38 +121,44 @@ http://localhost:8080/api
         }
       ```
 
-3. **Create Post**:
-      - Endpoint: `POST /api/post`
-      - Body:
-        ```json
-          {
-            "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
-            "media": [
+    3. **Create Post**:
+          - Endpoint: `POST /api/post`
+          - Body:
+            ```json
               {
-                "type": "IMAGE",
-                "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
+                "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
+                "media": [
+                  {
+                    "type": "IMAGE",
+                    "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
+                  }
+                ]
               }
-            ]
-          }
-        ```
-      - Response:
-         ```json
-            {
-              "code": "SUC001",
-              "message": "Request was successful",
-              "data": {
-              "id": 13,
-              "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
-              "createdAt": "2025-01-06T21:11:52",
-              "media": [
-                {
-                  "type": "image",
-                  "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
-                }
-              ]
-              }
-            }
-          ```
+            ```
+          - Response:
+             ```json
+               {
+                 "code": "SUC001",
+                 "message": "Request was successful",
+                 "data": {
+                    "id": 13,
+                    "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
+                    "author": {
+                         "id": 1,
+                         "email": "test-user@gmail.com",
+                         "firstname": "Test",
+                         "lastname": "User"
+                      },
+                    "createdAt": "2025-01-06T21:11:52",
+                    "media": [
+                      {
+                        "type": "image",
+                        "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
+                      }
+                    ]
+                 }
+               }
+             ```
 
 4. **Get Single Post**:
       - Endpoint: `GET /api/post/{id}`
