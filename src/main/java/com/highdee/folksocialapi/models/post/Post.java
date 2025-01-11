@@ -1,5 +1,6 @@
 package com.highdee.folksocialapi.models.post;
 
+import com.highdee.folksocialapi.models.auth.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -15,15 +16,16 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
-
     @Column(name = "content")
     private String content;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostMedia> mediaList = new ArrayList<>();
@@ -34,14 +36,6 @@ public class Post {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public String getContent() {
@@ -58,6 +52,12 @@ public class Post {
 
     public List<PostMedia> getMediaList() {
         return mediaList;
+    }
+    public void setUser(User user){ this.user = user; }
+    public User getUser() { return user;}
+
+    public Long getUserId(){
+        return this.user != null? this.user.getId(): null;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {

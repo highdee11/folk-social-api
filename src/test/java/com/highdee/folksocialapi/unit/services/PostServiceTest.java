@@ -1,6 +1,7 @@
 package com.highdee.folksocialapi.unit.services;
 
 import com.highdee.folksocialapi.dto.response.post.PostResponse;
+import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.models.post.Post;
 import com.highdee.folksocialapi.repositories.post.PostRepository;
 import com.highdee.folksocialapi.services.post.PostService;
@@ -33,7 +34,7 @@ public class PostServiceTest {
     void testGetOnePost(){
         Post sample = new Post();
         sample.setId(1l);
-        sample.setUserId(1l);
+        sample.setUser(new User());
         sample.setContent("Lorem Ipsum");
 
         when(postRepository.getById(1l)).thenReturn(sample);

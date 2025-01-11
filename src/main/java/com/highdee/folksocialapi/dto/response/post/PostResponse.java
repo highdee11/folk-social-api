@@ -1,5 +1,8 @@
 package com.highdee.folksocialapi.dto.response.post;
 
+import com.highdee.folksocialapi.dto.response.auth.UserResponse;
+import com.highdee.folksocialapi.dto.response.auth.UserSignInResponse;
+import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.models.post.Post;
 import com.highdee.folksocialapi.models.post.PostMedia;
 
@@ -9,6 +12,8 @@ import java.util.List;
 public class PostResponse {
     private Long id;
     public String content;
+
+    public UserResponse author;
     public LocalDateTime createdAt;
     public List<PostMediaResponse> media;
 
@@ -19,6 +24,7 @@ public class PostResponse {
         this.id = post.getId();
         this.content = post.getContent();
         this.createdAt = post.getCreatedAt();
+        this.author = new UserResponse(post.getUser());
         this.setMedia(post.getMediaList());
     }
 

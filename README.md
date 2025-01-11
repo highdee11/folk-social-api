@@ -157,84 +157,102 @@ http://localhost:8080/api
 4. **Get Single Post**:
       - Endpoint: `GET /api/post/{id}`
       - Response:
-         ```json
-            {
-              "code": "SUC001",
-              "message": "Request was successful",
-              "data": {
-                "id": 13,
-                "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
-                "createdAt": "2025-01-06T21:11:52",
-                "media": [
-                  {
-                   "type": "image",
-                    "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
-                  }
-                ]
-              }
-            }
-         ```
+      ```json
+         {
+            "code": "SUC001",
+            "message": "Request was successful",
+            "data": {
+               "id": 1,
+               "content": "Lorem Ipsum",
+               "author": {
+                  "id": 1,
+                  "email": "test-user@gmail.com",
+                  "firstname": "Test",
+                  "lastname": "User"
+               },
+            "createdAt": "2025-01-11T12:30:55",
+            "media": [
+               {
+               "type": "image",
+               "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
+               }
+            ]
+           }
+        }
+      ```
         
 5. **List Posts**:
-      - Endpoint: `GET /api/posts?page=0&size=2`
-        - Response:
-        ```json
-            {
-              "code": "SUC001",
-              "message": "Request was successful",
-              "data": {
-              "content": [
-                 {
-                    "id": 1,
-                    "content": "Lorem Ipsum",
-                    "createdAt": "2025-01-11T12:30:55",
-                    "media": [
-                          {
-                             "type": "image",
-                             "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
-                          }
-                    ]
-                 },
-                 {
-                    "id": 2,
-                    "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
-                    "createdAt": "2025-01-11T13:17:58",
-                    "media": [
-                       {
-                          "type": "image",
-                          "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
-                       }
-                    ]
-                 }
-              ],
-              "pageable": {
-              "pageNumber": 0,
-              "pageSize": 2,
-              "sort": {
-              "empty": true,
-              "sorted": false,
-              "unsorted": true
-              },
-              "offset": 0,
-              "paged": true,
-              "unpaged": false
-              },
-              "last": false,
-              "totalPages": 2,
-              "totalElements": 4,
-              "first": true,
-              "size": 2,
-              "number": 0,
-              "sort": {
-              "empty": true,
-              "sorted": false,
-              "unsorted": true
-              },
-              "numberOfElements": 2,
-              "empty": false
-              }
-            }
-      ```
+- Endpoint: `GET /api/posts?page=0&size=2`
+  - Response:
+  ```json
+   {
+      "code": "SUC001",
+      "message": "Request was successful",
+      "data": {
+      "content": [
+         {
+            "id": 1,
+            "content": "Lorem Ipsum",
+            "author": {
+               "id": 1,
+               "email": "test-user@gmail.com",
+               "firstname": "Test",
+               "lastname": "User"
+            },
+            "createdAt": "2025-01-11T12:30:55",
+            "media": [
+               {
+                  "type": "image",
+                  "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
+               }
+            ]
+         },
+         {
+            "id": 2,
+            "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
+            "author": {
+               "id": 1,
+               "email": "test-user@gmail.com",
+               "firstname": "Test",
+               "lastname": "User"
+            },
+            "createdAt": "2025-01-11T13:17:58",
+            "media": [
+               {
+               "type": "image",
+               "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
+               }
+            ]
+         }
+      ],
+      "pageable": {
+         "pageNumber": 0,
+         "pageSize": 2,
+         "sort": {
+            "empty": true,
+            "unsorted": true,
+            "sorted": false
+         },
+         "offset": 0,
+         "unpaged": false,
+         "paged": true
+      },
+      "last": false,
+      "totalPages": 2,
+      "totalElements": 4,
+      "first": true,
+      "size": 2,
+      "number": 0,
+      "sort": {
+         "empty": true,
+         "unsorted": true,
+         "sorted": false
+      },
+      "numberOfElements": 2,
+      "empty": false
+      }
+   }
+  ```
    
 6. **Delete Post**:
       - Endpoint: `DELETE /api/post/{id}`
