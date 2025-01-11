@@ -4,6 +4,7 @@ import com.highdee.folksocialapi.dto.response.post.PostResponse;
 import com.highdee.folksocialapi.models.post.Post;
 import com.highdee.folksocialapi.repositories.post.PostRepository;
 import com.highdee.folksocialapi.services.post.PostService;
+import com.highdee.folksocialapi.services.post.PostServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,8 +21,8 @@ public class PostServiceTest {
     @Mock
     private PostRepository postRepository;
 
-    @Mock
-    private PostService postService;
+    @InjectMocks
+    private PostServiceImpl postService;
 
     @BeforeEach
     void setup(){
@@ -35,7 +36,7 @@ public class PostServiceTest {
         sample.setUserId(1l);
         sample.setContent("Lorem Ipsum");
 
-        when(postRepository.getById(any(Long.class))).thenReturn(sample);
+        when(postRepository.getById(1l)).thenReturn(sample);
 
         PostResponse post = postService.getOne(1l);
         assertEquals(post.getId(), 1l);
