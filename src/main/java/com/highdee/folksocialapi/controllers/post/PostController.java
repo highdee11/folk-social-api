@@ -1,5 +1,6 @@
 package com.highdee.folksocialapi.controllers.post;
 
+import com.highdee.folksocialapi.constants.AppConstants;
 import com.highdee.folksocialapi.dto.request.post.CreatePostRequest;
 import com.highdee.folksocialapi.dto.response.RestResponse;
 import com.highdee.folksocialapi.dto.response.post.PostResponse;
@@ -7,6 +8,9 @@ import com.highdee.folksocialapi.exceptions.handlers.CustomException;
 import com.highdee.folksocialapi.models.post.Post;
 import com.highdee.folksocialapi.services.post.PostService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,8 +36,11 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<RestResponse<List<PostResponse>>> list(){
-        List<PostResponse> postResponseList = postService.list();
+    public ResponseEntity<RestResponse<Page<PostResponse>>> list(
+            @RequestParam(defaultValue = AppConstants.DEFAULT_PAGE_NUMBER+"") int page,
+            @RequestParam(defaultValue =  AppConstants.DEFAULT_PAGE_SIZE+"") int size
+    ){
+        Page<PostResponse> postResponseList = postService.list(PageRequest.of(page, size));
 
         return ResponseEntity.status(200).body(RestResponse.success(postResponseList));
     }

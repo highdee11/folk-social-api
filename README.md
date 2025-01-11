@@ -176,38 +176,65 @@ http://localhost:8080/api
          ```
         
 5. **List Posts**:
-      - Endpoint: `GET /api/posts`
-      - Response:
+      - Endpoint: `GET /api/posts?page=0&size=2`
+        - Response:
         ```json
-          {
-            "code": "SUC001",
-            "message": "Request was successful",
-            "data": [
-              {
-                "id": 3,
-                "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
-                "createdAt": "2025-01-06T22:34:52",
-                "media": [
-                  {
-                    "type": "image",
-                    "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
-                  }
-                ]
+            {
+              "code": "SUC001",
+              "message": "Request was successful",
+              "data": {
+              "content": [
+                 {
+                    "id": 1,
+                    "content": "Lorem Ipsum",
+                    "createdAt": "2025-01-11T12:30:55",
+                    "media": [
+                          {
+                             "type": "image",
+                             "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
+                          }
+                    ]
+                 },
+                 {
+                    "id": 2,
+                    "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
+                    "createdAt": "2025-01-11T13:17:58",
+                    "media": [
+                       {
+                          "type": "image",
+                          "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
+                       }
+                    ]
+                 }
+              ],
+              "pageable": {
+              "pageNumber": 0,
+              "pageSize": 2,
+              "sort": {
+              "empty": true,
+              "sorted": false,
+              "unsorted": true
               },
-              {
-                "id": 4,
-                "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
-                "createdAt": "2025-01-06T22:34:52",
-                "media": [
-                  {
-                     "type": "image",
-                    "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
-                  }
-              ]
+              "offset": 0,
+              "paged": true,
+              "unpaged": false
+              },
+              "last": false,
+              "totalPages": 2,
+              "totalElements": 4,
+              "first": true,
+              "size": 2,
+              "number": 0,
+              "sort": {
+              "empty": true,
+              "sorted": false,
+              "unsorted": true
+              },
+              "numberOfElements": 2,
+              "empty": false
               }
-            ]
-          }
-        ```
+            }
+      ```
    
 6. **Delete Post**:
       - Endpoint: `DELETE /api/post/{id}`

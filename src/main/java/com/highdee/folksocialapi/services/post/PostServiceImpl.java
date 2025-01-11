@@ -1,19 +1,16 @@
 package com.highdee.folksocialapi.services.post;
 
+import com.highdee.folksocialapi.constants.AppConstants;
 import com.highdee.folksocialapi.dto.request.post.CreatePostRequest;
 import com.highdee.folksocialapi.dto.request.post.PostMediaRequest;
-import com.highdee.folksocialapi.dto.response.RestResponse;
 import com.highdee.folksocialapi.dto.response.post.PostResponse;
 import com.highdee.folksocialapi.exceptions.handlers.CustomException;
 import com.highdee.folksocialapi.models.post.Post;
 import com.highdee.folksocialapi.repositories.post.PostRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -33,10 +30,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostResponse> list(){
-        List<Post> posts = postRepository.findAll();
+    public Page<PostResponse> list(Pageable pageable){
 
-        return posts.stream().map(PostResponse::new).toList();
+        int page = pageable.getPageNumber();
+        int size = Math.min(pageable.getPageSize(), AppConstants.MAX_PAGE_SIZE);
+
+        Page<PostResponse> posts = postRepository.findAll(PageRequest.of(page, size))
+                .map(PostResponse::new);
+
+        return posts;
     }
 
     @Override
