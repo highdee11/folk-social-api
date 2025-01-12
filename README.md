@@ -412,6 +412,22 @@ http://localhost:8080/api
 
 ---
 
+## **Postman Collection**
+
+You can import the Postman collection to test the API endpoints directly.
+
+1. **Download the Postman Collection**: [Folk Social API Postman Collection](https://documenter.getpostman.com/view/6055785/2sAYQWKtHh)
+2. **Import into Postman**:
+    - Open Postman.
+    - Click on `Import` in the top-left corner.
+    - Upload the collection file (JSON format).
+3. **Start Testing**:
+    - Configure the base URL for your API (e.g., `http://localhost:8080` or your deployed API URL).
+    - Test the endpoints provided in the collection.
+
+---
+
+
 ## Technologies
 
 - **Java 17**: Core programming language.
