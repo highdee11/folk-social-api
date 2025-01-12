@@ -400,7 +400,7 @@ http://localhost:8080/api
 |--------|---------------------------------------|---------------------------------------------------------------------------------|
 | POST   | `/api/auth/create-account`            | Register a new user                                                             |
 | POST   | `/api/auth/login`                     | Authenticate user                                                               |
-| POST   | `/api/post`                           | Create Post and Media                                                           |
+| POST   | `/api/post`                           | Create Post/Comment With Media                                                  |
 | GET    | `/api/posts`                          | Retrieve a list of all posts                                                    | 
 | GET    | `/api/post?page=0&size=15`            | Retrieve posts on page 0 with a maximum of 15 posts per page.                   | 
 | GET    | `/api/post?page=0&size=5&author_id=2` | Retrieve posts authored by the user with ID = 2, on page 0, limited to 5 posts. | 
