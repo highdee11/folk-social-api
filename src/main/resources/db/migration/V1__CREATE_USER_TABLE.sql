@@ -1,9 +1,9 @@
 CREATE TABLE users (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    firstname VARCHAR(255) NOT NULL,
-    lastname VARCHAR(255) NOT NULL,
+    email varchar(255) NOT NULL UNIQUE,
+    firstname TINYTEXT NOT NULL,
+    lastname TINYTEXT NOT NULL,
     dob DATE,
-    password VARCHAR(255) NOT NULL,
+    password TINYTEXT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 )

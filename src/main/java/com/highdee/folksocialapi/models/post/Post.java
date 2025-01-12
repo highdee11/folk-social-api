@@ -1,12 +1,15 @@
 package com.highdee.folksocialapi.models.post;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.highdee.folksocialapi.models.auth.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.lang.Nullable;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "posts")
@@ -26,6 +29,14 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id", nullable = true)
+    private Post parent;
+
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Post> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostMedia> mediaList = new ArrayList<>();
@@ -58,6 +69,19 @@ public class Post {
 
     public Long getUserId(){
         return this.user != null? this.user.getId(): null;
+    }
+
+    public void setParent(Post post){
+        this.parent = post;
+        System.out.println("Post is set");
+    }
+
+    public Post getParent(){
+        return this.parent;
+    }
+
+    public List<Post> getComments(){
+        return this.comments;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {

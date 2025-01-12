@@ -2,6 +2,7 @@ package com.highdee.folksocialapi.controllers.post;
 
 import com.highdee.folksocialapi.constants.AppConstants;
 import com.highdee.folksocialapi.dto.request.post.CreatePostRequest;
+import com.highdee.folksocialapi.dto.request.post.ListPostRequest;
 import com.highdee.folksocialapi.dto.response.RestResponse;
 import com.highdee.folksocialapi.dto.response.post.PostResponse;
 import com.highdee.folksocialapi.exceptions.handlers.CustomException;
@@ -36,11 +37,8 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<RestResponse<Page<PostResponse>>> list(
-            @RequestParam(defaultValue = AppConstants.DEFAULT_PAGE_NUMBER+"") int page,
-            @RequestParam(defaultValue =  AppConstants.DEFAULT_PAGE_SIZE+"") int size
-    ){
-        Page<PostResponse> postResponseList = postService.list(PageRequest.of(page, size));
+    public ResponseEntity<RestResponse<Page<PostResponse>>> list(@ModelAttribute ListPostRequest request){
+        Page<PostResponse> postResponseList = postService.list(request);
 
         return ResponseEntity.status(200).body(RestResponse.success(postResponseList));
     }
