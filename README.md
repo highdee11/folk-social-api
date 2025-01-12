@@ -19,9 +19,9 @@ FolkSocial is a robust backend API designed to power a modern social media platf
 1. [Installation](#installation)
 2. [Usage](#usage)
 3. [API Endpoints](#api-endpoints)
-3. [Postman Collection](#postman-collection)
-4. [Technologies](#technologies)
-5. [Contributing](#contributing)
+4. [Postman Collection](#postman-collection)
+5. [Technologies](#technologies)
+6. [Contributing](#contributing)
 
 ---
 
