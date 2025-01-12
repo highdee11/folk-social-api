@@ -7,7 +7,10 @@ FolkSocial is a robust backend API designed to power a modern social media platf
 ## Features
 
 - **User Authentication**: Secure user registration and login using JWT authentication.
-- **Role-Based Access Control**: Ensure restricted access to specific resources.
+- **Posts and Comments**:
+  - Create, retrieve, update, and delete posts. 
+  - Supports hierarchical comments, allowing users to reply to posts by creating new posts linked as comments. 
+  - Pagination for efficient retrieval of large datasets.
 - **Scalable Design**: Built with Spring Boot for scalability and performance.
 - **Error Handling**: Comprehensive error messages and HTTP status codes.
 - **Stateless API**: Implements a stateless design using JWT.
