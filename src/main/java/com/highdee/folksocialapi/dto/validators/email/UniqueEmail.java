@@ -1,4 +1,4 @@
-package com.highdee.folksocialapi.dto.validators;
+package com.highdee.folksocialapi.dto.validators.email;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

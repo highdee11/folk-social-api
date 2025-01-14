@@ -1,6 +1,7 @@
 CREATE TABLE users (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     email varchar(255) NOT NULL UNIQUE,
+    username varchar(255) NOT NULL UNIQUE,
     firstname TINYTEXT NOT NULL,
     lastname TINYTEXT NOT NULL,
     dob DATE,

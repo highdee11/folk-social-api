@@ -1,9 +1,11 @@
 package com.highdee.folksocialapi.dto.request.auth;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.highdee.folksocialapi.dto.validators.UniqueEmail;
+import com.highdee.folksocialapi.dto.validators.email.UniqueEmail;
+import com.highdee.folksocialapi.dto.validators.username.UniqueUsername;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -12,6 +14,14 @@ public class CreateUserRequest {
     @UniqueEmail
     @Email(message = "Enter a valid email address")
     public String email;
+
+    @UniqueUsername
+    @Pattern(
+            regexp = "^[a-zA-Z0-9_.]*$",
+            message = "Only alphanumeric characters, underscores (_), and dots (.) are allowed."
+    )
+    @NotBlank(message = "Username is required")
+    public String username;
 
     @NotBlank(message = "Firstname is required")
     public String firstname;
@@ -48,6 +58,14 @@ public class CreateUserRequest {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFirstname() {

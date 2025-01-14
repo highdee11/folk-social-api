@@ -1,13 +1,13 @@
 package com.highdee.folksocialapi.services.follow;
 
-import com.highdee.folksocialapi.dto.request.CreateFollowRequest;
+import com.highdee.folksocialapi.dto.request.follow.CreateFollowRequest;
+import com.highdee.folksocialapi.dto.request.follow.UnFollowRequest;
 import com.highdee.folksocialapi.exceptions.handlers.CustomException;
 import com.highdee.folksocialapi.exceptions.handlers.ResourceNotFoundException;
 import com.highdee.folksocialapi.models.UserFollow;
 import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.repositories.FollowRepository;
 import com.highdee.folksocialapi.repositories.auth.UserRepository;
-import com.highdee.folksocialapi.services.user.UserService;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,7 +31,7 @@ public class FollowServiceImpl implements FollowService{
         if(followedUser.getId() == follower.getId()) throw new CustomException("You cannot follow yourself");
 
         if(checkIfAlreadyFollower(follower.getId(), followedUser.getId())){
-            throw new CustomException("You're already a following "+followedUser.getFirstName());
+            throw new CustomException("You're already a following "+followedUser.getUsername());
         }
 
         UserFollow userFollow = new UserFollow();
@@ -42,8 +42,28 @@ public class FollowServiceImpl implements FollowService{
     }
 
     @Override
-    public boolean checkIfAlreadyFollower(Long followerId, Long FollowedId) {
-        UserFollow userFollow =  followRepository.findByFollowedIdAndFollowerId(FollowedId, followerId);
+    public void unFollow(UnFollowRequest request, User follower) throws CustomException {
+        User followedUser = userRepository.findById(request.getFollowingId())
+                .orElseThrow(()-> new ResourceNotFoundException("Unknown user!"));
+
+        if(followedUser.getId() == follower.getId()) throw new CustomException("You cannot unfollow yourself");
+
+        UserFollow userFollow = getFollow(follower.getId(), followedUser.getId());
+        if(userFollow == null){
+            throw new CustomException("you were never a follower of "+followedUser.getUsername());
+        }
+
+        followRepository.delete(userFollow);
+    }
+
+    @Override
+    public boolean checkIfAlreadyFollower(Long followerId, Long followedId) {
+        UserFollow userFollow =  getFollow(followerId, followedId);
         return userFollow != null;
+    }
+
+    @Override
+    public UserFollow getFollow(Long followerId, Long followedId) {
+        return followRepository.findByFollowedIdAndFollowerId(followedId, followerId);
     }
 }

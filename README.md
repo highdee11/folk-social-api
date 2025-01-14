@@ -70,7 +70,7 @@ FolkSocial is a robust backend API designed to power a modern social media platf
 ---
 
 ## Usage
-
+#### Note: We have decided to stop adding more endpoints to the readme file, Kindly check the [postman collection](#postman-collection) for more detailed endpoints
 ### Base URL
 
 The base URL for all endpoints is:
@@ -85,6 +85,7 @@ http://localhost:8080/api
       ```json
       {
         "email": "highdee.ai+8@gmail.com",
+        "username": "highdee",
         "firstname": "Idowu",
         "lastname": "Aladesiun",
         "password": "secret",
@@ -313,89 +314,121 @@ http://localhost:8080/api
 
 8. **Retrieve Comments/Replies**:
    - Endpoint: `GET /api/posts?post_id=1`
-   - Response:
-     ```json
-      {
-        "code": "SUC001",
-        "message": "Request was successful",
-        "data": {
-        "content": [
+     - Response:
+       ```json
             {
-                "id": 7,
-                "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
-                "author": {
-                    "id": 2,
-                    "email": "test-user@gmail.com",
-                    "firstname": "John",
-                    "lastname": "Doe"
-                },
-                "createdAt": "2025-01-12T09:18:55",
-                "media": [
-                    {
-                    "type": "image",
-                    "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
-                    }
-                ],
-                "parentPost": null
-            },
-            {
-                "id": 6,
-                "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
-                "author": {
-                    "id": 2,
-                    "email": "test-user@gmail.com",
-                    "firstname": "John",
-                    "lastname": "Doe"
-                },
-                "createdAt": "2025-01-12T09:18:30",
-                "media": [
-                    {
-                    "type": "image",
-                    "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
-                    }
-                ],
-                "parentPost": null
+              "code": "SUC001",
+              "message": "Request was successful",
+              "data": {
+                  "content": [
+                      {
+                          "id": 7,
+                          "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
+                          "author": {
+                              "id": 2,
+                              "email": "test-user@gmail.com",
+                              "firstname": "John",
+                              "lastname": "Doe"
+                          },
+                          "createdAt": "2025-01-12T09:18:55",
+                          "media": [
+                              {
+                              "type": "image",
+                              "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
+                              }
+                          ],
+                          "parentPost": null
+                      },
+                      {
+                          "id": 6,
+                          "content": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
+                          "author": {
+                              "id": 2,
+                              "email": "test-user@gmail.com",
+                              "firstname": "John",
+                              "lastname": "Doe"
+                          },
+                          "createdAt": "2025-01-12T09:18:30",
+                          "media": [
+                              {
+                              "type": "image",
+                              "url": "https://media.istockphoto.com/id/1458782106/photo/scenic-aerial-view-of-the-mountain-landscape-with-a-forest-and-the-crystal-blue-river-in.jpg?s=2048x2048&w=is&k=20&c=jbXMS_yFujUo29EIjPd8XBsEan-PAHUcPs0Zo1-HY_U="
+                              }
+                          ],
+                          "parentPost": null
+                      }
+                  ],
+                  "pageable": {
+                      "pageNumber": 0,
+                      "pageSize": 2,
+                      "sort": {
+                          "empty": false,
+                          "sorted": true,
+                          "unsorted": false
+                      },
+                      "offset": 0,
+                      "paged": true,
+                      "unpaged": false
+                  },
+                  "last": false,
+                  "totalPages": 2,
+                  "totalElements": 3,
+                  "first": true,
+                  "size": 2,
+                  "number": 0,
+                  "sort": {
+                      "empty": false,
+                      "sorted": true,
+                      "unsorted": false
+                  },
+                  "numberOfElements": 2,
+                  "empty": false
+              }
             }
-        ],
-        "pageable": {
-        "pageNumber": 0,
-        "pageSize": 2,
-        "sort": {
-        "empty": false,
-        "sorted": true,
-        "unsorted": false
-        },
-        "offset": 0,
-        "paged": true,
-        "unpaged": false
-        },
-        "last": false,
-        "totalPages": 2,
-        "totalElements": 3,
-        "first": true,
-        "size": 2,
-        "number": 0,
-        "sort": {
-        "empty": false,
-        "sorted": true,
-        "unsorted": false
-        },
-        "numberOfElements": 2,
-        "empty": false
-        }
-        }
-     ```
+       ```
 
 9. **Delete Post**:
     - Endpoint: `DELETE /api/post/{id}`
-    - Response:
-      ```json
-         {
-             "code": "SUC001",
-             "message": "Request was successful",
-             "data": null
-         }
-      ```
+      - Response:
+        ```json
+           {
+               "code": "SUC001",
+               "message": "Request was successful",
+               "data": null
+           }
+        ```
+10. **Follow User**
+    - Endpoint: `POST /api/follow`
+      - Payload: // user id of the user to be followed 
+        ```json
+          {
+              "following_id": 2 
+          }
+        ```
+      - Response:
+        ```json
+        {
+            "code": "SUC001",
+            "message": "Request was successful",
+            "data": null
+        }
+        ```
+11. **Unfollow User**
+    - Endpoint: `DELETE /api/follow`
+      - Payload: // user id of the user to be unfollowed
+        ```json
+          {
+              "following_id": 2 
+          }
+        ```
+      - Response:
+        ```json
+            {
+                "code": "SUC001",
+                "message": "Request was successful",
+                "data": null
+            }
+        ```
 ---
 
 ## API Endpoints
@@ -413,6 +446,8 @@ http://localhost:8080/api
 | DELETE | `/api/post/{id}`                      | Delete Single Post                                                              |
 | GET    | `/api/post?&post_id=1`                | Retrieve comments for the post with ID = 1.                                     | 
 | DELETE | `/api/post/{id}`                      | Delete Single Comment                                                           |
+| POST   | `/api/follow/`                        | Follow a user                                                                   |
+| DELETE | `/api/follow/`                        | Unfollow a user                                                                 |
 
 ---
 

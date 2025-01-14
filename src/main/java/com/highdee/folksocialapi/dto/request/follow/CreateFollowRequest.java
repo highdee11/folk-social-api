@@ -1,4 +1,4 @@
-package com.highdee.folksocialapi.dto.request;
+package com.highdee.folksocialapi.dto.request.follow;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
