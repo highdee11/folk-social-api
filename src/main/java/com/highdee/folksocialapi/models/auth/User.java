@@ -1,10 +1,12 @@
 package com.highdee.folksocialapi.models.auth;
 
+import com.highdee.folksocialapi.models.UserFollow;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -32,6 +34,12 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @OneToMany(mappedBy = "followed", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserFollow> followings;
+
+    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserFollow> followers;
 
     public void setPassword(String password) {
         this.password = password;

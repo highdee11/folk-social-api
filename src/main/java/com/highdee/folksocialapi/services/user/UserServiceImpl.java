@@ -1,4 +1,4 @@
-package com.highdee.folksocialapi.services;
+package com.highdee.folksocialapi.services.user;
 
 import com.highdee.folksocialapi.dto.request.auth.CreateUserRequest;
 import com.highdee.folksocialapi.dto.request.auth.UserLoginRequest;
@@ -9,11 +9,15 @@ import com.highdee.folksocialapi.services.auth.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
-public class UserService {
+public class UserServiceImpl implements UserService {
     final UserRepository userRepository;
 
     final AuthenticationManager authenticationManager;
@@ -21,12 +25,13 @@ public class UserService {
     final JwtService jwtService;
 
     @Autowired
-    public UserService(UserRepository userRepository, AuthenticationManager authenticationManager, JwtService jwtService) {
+    public UserServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager, JwtService jwtService) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
     }
 
+    @Override
     public User create(CreateUserRequest request){
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -43,6 +48,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    @Override
     public UserSignInResponse login(UserLoginRequest loginRequest){
 
         // Authenticate user
@@ -62,5 +68,13 @@ public class UserService {
 
 
         return userSignInResponse;
+    }
+
+    @Override
+    public Optional<User> getLoggedInUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = authentication.getName();
+
+        return userRepository.findById(Long.parseLong(userId));
     }
 }

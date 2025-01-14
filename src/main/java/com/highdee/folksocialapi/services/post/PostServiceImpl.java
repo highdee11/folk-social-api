@@ -6,6 +6,7 @@ import com.highdee.folksocialapi.dto.request.post.ListPostRequest;
 import com.highdee.folksocialapi.dto.request.post.PostMediaRequest;
 import com.highdee.folksocialapi.dto.response.post.PostResponse;
 import com.highdee.folksocialapi.exceptions.handlers.CustomException;
+import com.highdee.folksocialapi.exceptions.handlers.ResourceNotFoundException;
 import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.models.post.Post;
 import com.highdee.folksocialapi.repositories.auth.UserRepository;
@@ -29,7 +30,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostResponse getOne(Long postId) {
-        Post post =  postRepository.getById(postId);
+        Post post = postRepository.findById(postId).orElseThrow(ResourceNotFoundException::new);
         return new PostResponse(post);
     }
 
@@ -57,15 +58,15 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostResponse create(CreatePostRequest request, Long userId) {
-        User user = userRepository.getById(userId);
+        User user = userRepository.findById(userId).orElseThrow(ResourceNotFoundException::new);
 
         // Create Post
         Post post = new Post();
         post.setUser(user);
         post.setContent(request.getContent());
         if(request.getParentId() != null){
-            Optional<Post> parentPost = postRepository.findById(request.getParentId());
-            parentPost.ifPresent(post::setParent);
+            Post parentPost = postRepository.findById(request.getParentId()).orElseThrow(ResourceNotFoundException::new);
+            post.setParent(parentPost);
         }
 
         final Post savedPost = postRepository.save(post);
@@ -81,7 +82,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void delete(Long postId, Long authorId) throws CustomException {
-        Post post = postRepository.getById(postId);
+        Post post = postRepository.findById(postId).orElseThrow(ResourceNotFoundException::new);
 
         if(!post.getUserId().equals(authorId)){
             throw new CustomException("You're not authorized to delete this post");

@@ -6,7 +6,7 @@ import com.highdee.folksocialapi.dto.response.auth.UserSignInResponse;
 import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.repositories.auth.UserRepository;
 import com.highdee.folksocialapi.services.auth.JwtService;
-import com.highdee.folksocialapi.services.UserService;
+import com.highdee.folksocialapi.services.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

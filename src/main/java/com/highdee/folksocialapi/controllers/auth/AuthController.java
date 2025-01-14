@@ -5,7 +5,7 @@ import com.highdee.folksocialapi.dto.request.auth.UserLoginRequest;
 import com.highdee.folksocialapi.dto.response.RestResponse;
 import com.highdee.folksocialapi.dto.response.auth.UserSignInResponse;
 import com.highdee.folksocialapi.enums.ResponseCode;
-import com.highdee.folksocialapi.services.UserService;
+import com.highdee.folksocialapi.services.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

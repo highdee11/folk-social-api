@@ -6,8 +6,11 @@ import com.highdee.folksocialapi.dto.request.post.ListPostRequest;
 import com.highdee.folksocialapi.dto.response.RestResponse;
 import com.highdee.folksocialapi.dto.response.post.PostResponse;
 import com.highdee.folksocialapi.exceptions.handlers.CustomException;
+import com.highdee.folksocialapi.exceptions.handlers.ResourceNotFoundException;
+import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.models.post.Post;
 import com.highdee.folksocialapi.services.post.PostService;
+import com.highdee.folksocialapi.services.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/post")
@@ -25,8 +29,11 @@ public class PostController {
 
     private final PostService postService;
 
-    public PostController(PostService postService){
+    private final UserService userService;
+
+    public PostController(PostService postService, UserService userService){
         this.postService = postService;
+        this.userService = userService;
     }
 
     @GetMapping("/{id}")
@@ -47,11 +54,10 @@ public class PostController {
     public ResponseEntity<RestResponse<PostResponse>> create(@Valid @RequestBody CreatePostRequest request){
 
         // Retrieve the user
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userId = authentication.getName();
+        User user = userService.getLoggedInUser().orElseThrow(ResourceNotFoundException::new);
 
         // Create a new post
-        PostResponse post = postService.create(request, Long.parseLong(userId));
+        PostResponse post = postService.create(request, user.getId());
 
         // Return success response
         return ResponseEntity.status(200).body(RestResponse.success(post));
@@ -59,10 +65,8 @@ public class PostController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<RestResponse<Object>> delete(@PathVariable long id) throws CustomException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userId = authentication.getName();
-
-        postService.delete(id, Long.parseLong(userId));
+        User user = userService.getLoggedInUser().orElseThrow(ResourceNotFoundException::new);
+        postService.delete(id, user.getId());
 
         return ResponseEntity.status(200).body(RestResponse.success(null));
     }
