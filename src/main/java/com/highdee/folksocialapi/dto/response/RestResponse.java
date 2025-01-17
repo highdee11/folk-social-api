@@ -17,9 +17,17 @@ public class RestResponse<T> {
     }
 
     public static<T> RestResponse<T> success(T data){
-        return new RestResponse(
+        return new RestResponse<T>(
                 ResponseCode.REQUEST_SUCCESSFUL.getCode(),
                 ResponseCode.REQUEST_SUCCESSFUL.getMessage(),
+                data
+        );
+    }
+
+    public static<T> RestResponse<T> fromResponseCode(ResponseCode resp, T data){
+        return new RestResponse<T>(
+                resp.getCode(),
+                resp.getMessage(),
                 data
         );
     }

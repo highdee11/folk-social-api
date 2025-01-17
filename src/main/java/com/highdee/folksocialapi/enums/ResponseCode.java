@@ -8,7 +8,8 @@ public enum ResponseCode {
     SERVER_ERROR("ERR500", "An error occured!"),
     VALIDATION_ERROR("ERR001", "Validation error occurred"),
     INVALID_CREDENTIAL("ERR002", "Invalid credentials"),
-    TOKEN_EXPIRE("ERR003", "Auth Token Expired");
+    TOKEN_EXPIRE("ERR003", "Auth Token Expired"),
+    AUTHENTICATION_ERROR("ERR004", "Unable To Authenticate User");
 
     private final String code;
     private final String message;

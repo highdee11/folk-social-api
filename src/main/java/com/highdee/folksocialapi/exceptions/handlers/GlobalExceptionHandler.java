@@ -34,6 +34,15 @@ public class GlobalExceptionHandler {
                 .body(new RestResponse<>(resp.getCode(), resp.getMessage(), error));
     }
 
+    @ExceptionHandler(AuthentionException.class)
+    public ResponseEntity<RestResponse<Object>> handleAuthenticationError(AuthentionException ex){
+        ResponseCode responseCode = ResponseCode.AUTHENTICATION_ERROR;
+
+        return ResponseEntity
+                .status(401)
+                .body(new RestResponse<Object>(responseCode.getCode(), ex.getMessage(), null));
+    }
+
     @ExceptionHandler
     public ResponseEntity<RestResponse<Object>> handleOtherError(Exception ex){
         System.out.println(ex.getMessage());
