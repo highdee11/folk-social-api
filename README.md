@@ -125,8 +125,22 @@ http://localhost:8080/api
           }
         }
       ```
-
-3. **Create Post**:
+3. **Get User**
+    - Endpoint: `GET /api/user`
+      - Response: 
+        ```
+        {
+             "code": "SUC001",
+             "message": "Request was successful",
+             "data": {
+                 "id": 1,
+                 "email": "highdee.ai+2@gmail.com",
+                 "firstname": "Idowu",
+                 "lastname": "Aladesiun"
+             }
+         }
+    ```
+4. **Create Post**:
       - Endpoint: `POST /api/post`
       - Body:
         ```json
@@ -433,21 +447,22 @@ http://localhost:8080/api
 
 ## API Endpoints
 
-| Method | Endpoint                              | Description                                                                     |
-|--------|---------------------------------------|---------------------------------------------------------------------------------|
-| POST   | `/api/auth/create-account`            | Register a new user                                                             |
-| POST   | `/api/auth/login`                     | Authenticate user                                                               |
-| POST   | `/api/post`                           | Create Post/Comment With Media                                                  |
-| GET    | `/api/posts`                          | Retrieve a list of all posts                                                    | 
-| GET    | `/api/post?page=0&size=15`            | Retrieve posts on page 0 with a maximum of 15 posts per page.                   | 
+| Method | Endpoint                             | Description                                                                    |
+|--------|--------------------------------------|--------------------------------------------------------------------------------|
+| POST   | `/api/auth/create-account`           | Register a new user                                                            |
+| POST   | `/api/auth/login`                    | Authenticate user                                                              |
+| GET    | `/api/user`                          | Get Logged In user                                                             |
+| POST   | `/api/post`                          | Create Post/Comment With Media                                                 |
+| GET    | `/api/posts`                         | Retrieve a list of all posts                                                   | 
+| GET    | `/api/post?page=0&size=15`           | Retrieve posts on page 0 with a maximum of 15 posts per page.                  | 
 | GET    | `/api/post?page=0&size=5&author_id=2` | Retrieve posts authored by the user with ID = 2, on page 0, limited to 5 posts. | 
-| GET    | `/api/post?page=0&size=5&post_id=1`   | Retrieve replies or comments for the post with ID = 1, on page 0, limited to 5. | 
-| GET    | `/api/post/{id}`                      | Get Single Post with Media                                                      |
-| DELETE | `/api/post/{id}`                      | Delete Single Post                                                              |
-| GET    | `/api/post?&post_id=1`                | Retrieve comments for the post with ID = 1.                                     | 
-| DELETE | `/api/post/{id}`                      | Delete Single Comment                                                           |
-| POST   | `/api/follow/`                        | Follow a user                                                                   |
-| DELETE | `/api/follow/`                        | Unfollow a user                                                                 |
+| GET    | `/api/post?page=0&size=5&post_id=1`  | Retrieve replies or comments for the post with ID = 1, on page 0, limited to 5. | 
+| GET    | `/api/post/{id}`                     | Get Single Post with Media                                                     |
+| DELETE | `/api/post/{id}`                     | Delete Single Post                                                             |
+| GET    | `/api/post?&post_id=1`               | Retrieve comments for the post with ID = 1.                                    | 
+| DELETE | `/api/post/{id}`                     | Delete Single Comment                                                          |
+| POST   | `/api/follow/`                       | Follow a user                                                                  |
+| DELETE | `/api/follow/`                       | Unfollow a user                                                                |
 
 ---
 
