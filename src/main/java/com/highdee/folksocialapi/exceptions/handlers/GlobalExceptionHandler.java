@@ -18,7 +18,7 @@ import java.util.HashMap;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<RestResponse<HashMap<String, String>>> handleValidationError(MethodArgumentNotValidException ex){
         HashMap<String, String> error = new HashMap<>();
@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
         ResponseCode resp = ResponseCode.VALIDATION_ERROR;
 
         return ResponseEntity
-                .status(400)
+                .status(422)
                 .body(new RestResponse<>(resp.getCode(), resp.getMessage(), error));
     }
 
@@ -42,6 +42,7 @@ public class GlobalExceptionHandler {
                 .status(401)
                 .body(new RestResponse<Object>(responseCode.getCode(), ex.getMessage(), null));
     }
+
 
     @ExceptionHandler
     public ResponseEntity<RestResponse<Object>> handleOtherError(Exception ex){

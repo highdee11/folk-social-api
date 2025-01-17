@@ -6,6 +6,7 @@ import com.highdee.folksocialapi.services.auth.UserDetailService;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -40,10 +41,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable) // Disable CSRF protection
-
+        http.csrf(AbstractHttpConfigurer::disable) // Disable CSRF prot
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll() // Allow public endpoints
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated() // Authenticate all other requests
                 ).addFilterAfter(new JwtAuthenticationFilter(userDetailService, jwtService), UsernamePasswordAuthenticationFilter.class);
         return http.build();
