@@ -47,4 +47,9 @@ public class AuthController {
         }
     }
 
+    @GetMapping("/check-username")
+    public ResponseEntity<RestResponse<Boolean>> login(String username){
+        boolean existByUsername = userService.userExistByUsername(username);
+        return ResponseEntity.status(200).body(RestResponse.success(existByUsername));
+    }
 }

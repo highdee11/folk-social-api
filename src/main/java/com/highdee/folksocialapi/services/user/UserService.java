@@ -8,7 +8,9 @@ import com.highdee.folksocialapi.models.auth.User;
 import java.util.Optional;
 
 public interface UserService {
-    public User create(CreateUserRequest createUserRequest);
-    public UserSignInResponse login(UserLoginRequest loginRequest);
-    public Optional<User> getLoggedInUser();
+    User create(CreateUserRequest createUserRequest);
+    UserSignInResponse login(UserLoginRequest loginRequest);
+    Optional<User> getLoggedInUser();
+
+    boolean userExistByUsername(String username);
 }
