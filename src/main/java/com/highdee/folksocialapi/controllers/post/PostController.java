@@ -8,8 +8,10 @@ import com.highdee.folksocialapi.dto.response.post.PostResponse;
 import com.highdee.folksocialapi.exceptions.handlers.CustomException;
 import com.highdee.folksocialapi.exceptions.handlers.ResourceNotFoundException;
 import com.highdee.folksocialapi.models.auth.User;
+import com.highdee.folksocialapi.models.post.Tag;
 import com.highdee.folksocialapi.models.post.Post;
 import com.highdee.folksocialapi.services.post.PostService;
+import com.highdee.folksocialapi.services.tag.TagService;
 import com.highdee.folksocialapi.services.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -20,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +33,7 @@ public class PostController {
     private final PostService postService;
 
     private final UserService userService;
+
 
     public PostController(PostService postService, UserService userService){
         this.postService = postService;

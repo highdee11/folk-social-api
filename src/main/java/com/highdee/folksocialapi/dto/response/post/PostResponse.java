@@ -5,6 +5,7 @@ import com.highdee.folksocialapi.dto.response.auth.UserSignInResponse;
 import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.models.post.Post;
 import com.highdee.folksocialapi.models.post.PostMedia;
+import com.highdee.folksocialapi.models.post.Tag;
 import org.springframework.lang.Nullable;
 
 import java.time.LocalDateTime;
@@ -21,6 +22,8 @@ public class PostResponse {
     @Nullable
     public PostResponse parentPost;
 
+    public List<TagResponse> tags;
+
     public PostResponse() {}
 
     public PostResponse(Post post) {
@@ -28,6 +31,8 @@ public class PostResponse {
         this.content = post.getContent();
         this.createdAt = post.getCreatedAt();
         this.author = new UserResponse(post.getUser());
+
+        this.setTags(post.getTags());
 //        this.setParentPost(post.getParent());
         this.setMedia(post.getMediaList());
     }
@@ -66,5 +71,9 @@ public class PostResponse {
     }
     public void setMedia(List<PostMedia> media) {
         this.media = media.stream().map(PostMediaResponse::new).toList();
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags.stream().map(TagResponse::new).toList();
     }
 }

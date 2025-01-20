@@ -9,11 +9,15 @@ import com.highdee.folksocialapi.exceptions.handlers.CustomException;
 import com.highdee.folksocialapi.exceptions.handlers.ResourceNotFoundException;
 import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.models.post.Post;
+import com.highdee.folksocialapi.models.post.Tag;
 import com.highdee.folksocialapi.repositories.auth.UserRepository;
 import com.highdee.folksocialapi.repositories.post.PostRepository;
+import com.highdee.folksocialapi.services.tag.TagService;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,11 +25,16 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final MediaService mediaService;
     private final UserRepository userRepository;
+    private final TagService tagService;
 
-    public PostServiceImpl(PostRepository postRepository, MediaService mediaService, UserRepository userRepository) {
+    public PostServiceImpl(PostRepository postRepository,
+                           MediaService mediaService,
+                           UserRepository userRepository,
+                           TagService tagService) {
         this.postRepository = postRepository;
         this.mediaService = mediaService;
         this.userRepository = userRepository;
+        this.tagService = tagService;
     }
 
     @Override
@@ -41,7 +50,6 @@ public class PostServiceImpl implements PostService {
         int size = Math.min(request.getSize(), AppConstants.MAX_PAGE_SIZE);
         Sort sort = request.getOrder();
 
-        System.out.println(request.getAuthorId());
         if(request.getAuthorId() != null){
             return postRepository.findAllByUser_id(PageRequest.of(page, size, sort), request.getAuthorId())
                     .map(PostResponse::new);
@@ -64,11 +72,20 @@ public class PostServiceImpl implements PostService {
         Post post = new Post();
         post.setUser(user);
         post.setContent(request.getContent());
+
         if(request.getParentId() != null){
             Post parentPost = postRepository.findById(request.getParentId()).orElseThrow(ResourceNotFoundException::new);
             post.setParent(parentPost);
         }
 
+        // Create and normalise tags
+        if(!request.getTags().isEmpty()) {
+            List<Tag> tags = new ArrayList<>();
+            tags = tagService.createAllTags(request.getTags());
+            post.setTags(tags);
+        }
+
+        // Save Post
         final Post savedPost = postRepository.save(post);
 
         // Create each media

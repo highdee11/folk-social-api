@@ -43,8 +43,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable) // Disable CSRF prot
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // Allow public endpoints
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll() // Allow public endpoints
                         .anyRequest().authenticated() // Authenticate all other requests
                 ).addFilterAfter(new JwtAuthenticationFilter(userDetailService, jwtService), UsernamePasswordAuthenticationFilter.class);
         return http.build();
@@ -56,7 +56,7 @@ public class SecurityConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // Allow all paths
-                        .allowedOrigins("*") // Allow specific origin
+                        .allowedOrigins("*")
                         .allowedMethods("GET", "POST", "PUT", "DELETE") // Allow HTTP methods
                         .allowedHeaders("*") // Allow all headers
                         .allowCredentials(false);
