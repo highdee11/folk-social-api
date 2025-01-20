@@ -1,13 +1,16 @@
 package com.highdee.folksocialapi.models.auth;
 
 import com.highdee.folksocialapi.models.UserFollow;
+import com.highdee.folksocialapi.models.post.Tag;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -45,7 +48,12 @@ public class User {
     @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserFollow> followers;
 
-
+    @ManyToMany
+    @JoinTable(name = "user_interest",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> interests = new HashSet<>();
 
 
     public void setPassword(String password) {
@@ -104,4 +112,11 @@ public class User {
         return createdAt;
     }
 
+    public Set<Tag> getInterests() {
+        return interests;
+    }
+
+    public void setInterests(List<Tag> interests) {
+        this.interests.addAll(interests);
+    }
 }

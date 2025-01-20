@@ -1,5 +1,6 @@
 package com.highdee.folksocialapi.services.tag;
 
+import com.highdee.folksocialapi.dto.request.post.SearchTagRequest;
 import com.highdee.folksocialapi.models.post.Tag;
 import com.highdee.folksocialapi.repositories.post.TagRepository;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,16 @@ public class TagServiceImpl implements TagService{
         }
 
         return tag;
+    }
+
+    @Override
+    public List<Tag> listTags(SearchTagRequest request) {
+        String searchedName = request.getName();
+        if(searchedName == null || searchedName.isBlank()) {
+            return tagRepository.findAllByParentId(null);
+        }
+
+        return tagRepository.findAllByNameContainingIgnoreCase(request.getName());
     }
 
     @Override

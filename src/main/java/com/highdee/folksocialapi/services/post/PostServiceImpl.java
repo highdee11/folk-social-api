@@ -13,6 +13,7 @@ import com.highdee.folksocialapi.models.post.Tag;
 import com.highdee.folksocialapi.repositories.auth.UserRepository;
 import com.highdee.folksocialapi.repositories.post.PostRepository;
 import com.highdee.folksocialapi.services.tag.TagService;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +66,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public PostResponse create(CreatePostRequest request, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(ResourceNotFoundException::new);
 
@@ -80,8 +82,7 @@ public class PostServiceImpl implements PostService {
 
         // Create and normalise tags
         if(!request.getTags().isEmpty()) {
-            List<Tag> tags = new ArrayList<>();
-            tags = tagService.createAllTags(request.getTags());
+            List<Tag> tags = tagService.createAllTags(request.getTags());
             post.setTags(tags);
         }
 
