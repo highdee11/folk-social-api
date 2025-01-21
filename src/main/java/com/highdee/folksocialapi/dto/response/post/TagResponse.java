@@ -2,7 +2,9 @@ package com.highdee.folksocialapi.dto.response.post;
 
 import com.highdee.folksocialapi.models.post.Tag;
 
-public class TagResponse {
+import java.io.Serializable;
+
+public class TagResponse implements Serializable {
     private String name;
 
     public TagResponse(Tag tag) {

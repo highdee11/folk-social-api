@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/profile")
@@ -49,8 +50,7 @@ public class ProfileController {
         Optional<User> user = userService.getLoggedInUser();
         if(user.isEmpty()) throw new AuthentionException(ResponseCode.AUTHENTICATION_ERROR.getMessage());
         Long userId = user.get().getId();
-        List<TagResponse> interests = profileService.listInterest(userId)
-                .stream().map(TagResponse::new).toList();
+        Set<TagResponse> interests = profileService.listInterest(userId);
 
         return ResponseEntity.status(200).body(RestResponse.success(interests));
     }

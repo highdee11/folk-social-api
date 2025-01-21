@@ -2,9 +2,13 @@ package com.highdee.folksocialapi.models.post;
 
 import jakarta.persistence.*;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @Entity
 @Table(name = "tags")
 public class Tag {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -14,6 +14,7 @@ FolkSocial is a robust backend API designed to power a modern social media platf
 - **Scalable Design**: Built with Spring Boot for scalability and performance.
 - **Error Handling**: Comprehensive error messages and HTTP status codes.
 - **Stateless API**: Implements a stateless design using JWT.
+- **Redis Caching**: Implemented caching using Redis.
 
 ---
 

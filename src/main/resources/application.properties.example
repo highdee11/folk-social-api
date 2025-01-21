@@ -2,6 +2,12 @@
 spring.application.name=folk-social-api
 spring.main.banner-mode=off
 
+# Redis Configuration
+spring.redis.host=
+spring.redis.port=
+spring.redis.password=
+spring.cache.type=redis
+
 
 # MYSQL Configuration
 spring.datasource.url=

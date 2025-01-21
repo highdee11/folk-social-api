@@ -1,5 +1,6 @@
 package com.highdee.folksocialapi.dto.request.user;
 
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.util.ArrayList;

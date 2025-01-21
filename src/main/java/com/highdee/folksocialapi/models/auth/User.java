@@ -5,6 +5,8 @@ import com.highdee.folksocialapi.models.post.Tag;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -43,10 +45,10 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "followed", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserFollow> followings;
+    private List<UserFollow> followings = new ArrayList<>();
 
     @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserFollow> followers;
+    private List<UserFollow> followers = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "user_interest",
