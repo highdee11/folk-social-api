@@ -36,9 +36,10 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
-    @Cacheable(value = "listInterest", key = "#userId")
-    public Set<TagResponse> listInterest(Long userId) {
-        User user = userRepository.getById(userId);
+    @Cacheable(value = "listInterest", key = "#user.id")
+    public Set<TagResponse> listInterest(User user) {
         return user.getInterests().stream().map(TagResponse::new).collect(Collectors.toSet());
     }
+
+
 }

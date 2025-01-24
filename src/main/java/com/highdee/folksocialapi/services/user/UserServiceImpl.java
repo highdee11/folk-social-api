@@ -21,6 +21,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Set;
+
 @Service
 public class UserServiceImpl implements UserService {
     final UserRepository userRepository;
@@ -101,4 +104,10 @@ public class UserServiceImpl implements UserService {
         System.out.println(results.getContent().size());
         return results.map(UserResponse::new);
     }
+
+    public List<UserResponse> suggestUsers(Set<Long> interestIds){
+        List<User> users = userRepository.findUserByInterest(interestIds);
+        return users.stream().map(UserResponse::new).toList();
+    }
+
 }

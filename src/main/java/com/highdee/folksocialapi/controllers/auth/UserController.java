@@ -1,10 +1,13 @@
 package com.highdee.folksocialapi.controllers.auth;
 
 import com.highdee.folksocialapi.dto.response.RestResponse;
+import com.highdee.folksocialapi.dto.response.post.TagResponse;
 import com.highdee.folksocialapi.dto.response.user.UserPreferenceResponse;
 import com.highdee.folksocialapi.dto.response.user.UserResponse;
 import com.highdee.folksocialapi.exceptions.handlers.AuthentionException;
 import com.highdee.folksocialapi.models.auth.User;
+import com.highdee.folksocialapi.models.post.Tag;
+import com.highdee.folksocialapi.services.user.ProfileService;
 import com.highdee.folksocialapi.services.user.UserPreferenceService;
 import com.highdee.folksocialapi.services.user.UserService;
 import org.springframework.data.domain.Page;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/user")
@@ -23,9 +28,12 @@ public class UserController {
 
     private final UserPreferenceService preferenceService;
 
-    public UserController(UserService userService, UserPreferenceService preferenceService){
+    private final ProfileService profileService;
+
+    public UserController(UserService userService, UserPreferenceService preferenceService, ProfileService profileService){
         this.userService = userService;
         this.preferenceService = preferenceService;
+        this.profileService = profileService;
     }
 
     @GetMapping("")
@@ -47,4 +55,19 @@ public class UserController {
 
         return ResponseEntity.status(200).body(RestResponse.success(userResponses));
     }
+
+    @GetMapping("/suggests")
+    public ResponseEntity<RestResponse> suggestUser() throws AuthentionException {
+        // Get Logged in user
+        User loggedUser = userService.getLoggedInUser();
+
+        // Retrieve user interest
+        Set<TagResponse> tags = profileService.listInterest(loggedUser);
+        Set<Long> tagIds = tags.stream().map(TagResponse::getId).collect(Collectors.toSet());
+
+        List<UserResponse> userResponses = userService.suggestUsers(tagIds);
+
+        return ResponseEntity.status(200).body(RestResponse.success(userResponses));
+    }
+
 }

@@ -46,8 +46,7 @@ public class ProfileController {
     @GetMapping("/interests")
     public ResponseEntity<RestResponse<Object>> listInterest() throws AuthentionException {
         User user = userService.getLoggedInUser();
-        Long userId = user.getId();
-        Set<TagResponse> interests = profileService.listInterest(userId);
+        Set<TagResponse> interests = profileService.listInterest(user);
 
         return ResponseEntity.status(200).body(RestResponse.success(interests));
     }

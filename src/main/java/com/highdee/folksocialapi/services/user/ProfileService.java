@@ -9,5 +9,5 @@ import java.util.Set;
 
 public interface ProfileService {
     void updateInterest(List<Tag> tags, Long userId);
-    Set<TagResponse> listInterest(Long userId);
+    Set<TagResponse> listInterest(User user);
 }
