@@ -1,20 +1,25 @@
 package com.highdee.folksocialapi.services.user;
 
+import com.highdee.folksocialapi.constants.AppConstants;
 import com.highdee.folksocialapi.dto.request.auth.CreateUserRequest;
 import com.highdee.folksocialapi.dto.request.auth.UserLoginRequest;
 import com.highdee.folksocialapi.dto.response.auth.UserSignInResponse;
+import com.highdee.folksocialapi.dto.response.user.UserResponse;
+import com.highdee.folksocialapi.enums.ResponseCode;
+import com.highdee.folksocialapi.exceptions.handlers.AuthentionException;
 import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.repositories.auth.UserRepository;
 import com.highdee.folksocialapi.services.auth.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -72,15 +77,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getLoggedInUser() {
+    public User getLoggedInUser() throws AuthentionException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userId = authentication.getName();
 
-        return userRepository.findById(Long.parseLong(userId));
+         return userRepository.findById(Long.parseLong(userId))
+                .orElseThrow(()-> new AuthentionException(ResponseCode.AUTHENTICATION_ERROR.getMessage()));
     }
 
     @Override
     public boolean userExistByUsername(String username) {
         return userRepository.existsByUsername(username);
+    }
+
+    @Override
+    public Page<UserResponse> searchUser(String name) {
+        int page = 0;
+        int size = AppConstants.MAX_PAGE_SIZE;
+        Sort sort = Sort.by(AppConstants.DEFAULT_PAGE_ORDERBY).ascending();
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
+
+        Page<User> results = userRepository.findAllByUsernameContainingIgnoreCase(pageRequest, name);
+        System.out.println(results.getContent().size());
+        return results.map(UserResponse::new);
     }
 }

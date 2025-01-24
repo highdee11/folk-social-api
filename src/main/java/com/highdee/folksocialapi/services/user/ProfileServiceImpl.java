@@ -22,10 +22,9 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
-    @CacheEvict(value = "listInterest", key = "#userId")
+    @CacheEvict(value = {"listInterest", "userPreference"}, key = "#userId")
     public void updateInterest(List<Tag> newInterest, Long userId) {
         User user = userRepository.getById(userId);
-
         Set<Tag> existingInterest = user.getInterests();
 
         // Remove interests that doesn't exist in the new interest

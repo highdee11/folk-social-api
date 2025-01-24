@@ -36,20 +36,17 @@ public class ProfileController {
 
     @PostMapping("/interests/update")
     public ResponseEntity<RestResponse<Object>> updateUserTags(@Valid @RequestBody UpdateInterestRequest request) throws AuthentionException {
-        Optional<User> user = userService.getLoggedInUser();
-        if(user.isEmpty()) throw new AuthentionException(ResponseCode.AUTHENTICATION_ERROR.getMessage());
-
+        User user = userService.getLoggedInUser();
         List<Tag> tags = tagService.createAllTags(request.getInterests());
-        profileService.updateInterest(tags, user.get().getId());
+        profileService.updateInterest(tags, user.getId());
 
         return ResponseEntity.status(200).body(RestResponse.success(null));
     }
 
     @GetMapping("/interests")
-    public ResponseEntity<RestResponse<Object>> updateUserTags() throws AuthentionException {
-        Optional<User> user = userService.getLoggedInUser();
-        if(user.isEmpty()) throw new AuthentionException(ResponseCode.AUTHENTICATION_ERROR.getMessage());
-        Long userId = user.get().getId();
+    public ResponseEntity<RestResponse<Object>> listInterest() throws AuthentionException {
+        User user = userService.getLoggedInUser();
+        Long userId = user.getId();
         Set<TagResponse> interests = profileService.listInterest(userId);
 
         return ResponseEntity.status(200).body(RestResponse.success(interests));

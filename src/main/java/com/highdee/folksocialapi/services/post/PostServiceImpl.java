@@ -14,6 +14,8 @@ import com.highdee.folksocialapi.repositories.auth.UserRepository;
 import com.highdee.folksocialapi.repositories.post.PostRepository;
 import com.highdee.folksocialapi.services.tag.TagService;
 import jakarta.transaction.Transactional;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Cacheable(value = "oneProduct", key = "#postId")
     public PostResponse getOne(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(ResourceNotFoundException::new);
         return new PostResponse(post);
@@ -50,18 +53,19 @@ public class PostServiceImpl implements PostService {
         int page = request.getPage();
         int size = Math.min(request.getSize(), AppConstants.MAX_PAGE_SIZE);
         Sort sort = request.getOrder();
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
 
         if(request.getAuthorId() != null){
-            return postRepository.findAllByUser_id(PageRequest.of(page, size, sort), request.getAuthorId())
+            return postRepository.findAllByUser_id(pageRequest, request.getAuthorId())
                     .map(PostResponse::new);
         }
 
         if(request.getPostId() != null){
-            return postRepository.findAllByParent_id(PageRequest.of(page, size, sort), request.getPostId())
+            return postRepository.findAllByParent_id(pageRequest, request.getPostId())
                     .map(PostResponse::new);
         }
 
-        return postRepository.findAll(PageRequest.of(page, size, sort))
+        return postRepository.findAll(pageRequest)
                 .map(PostResponse::new);
     }
 
@@ -99,6 +103,7 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
+    @CacheEvict(value = "oneProduct", key = "#postId")
     public void delete(Long postId, Long authorId) throws CustomException {
         Post post = postRepository.findById(postId).orElseThrow(ResourceNotFoundException::new);
 

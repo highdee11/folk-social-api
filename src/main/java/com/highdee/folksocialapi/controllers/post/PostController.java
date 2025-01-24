@@ -5,6 +5,7 @@ import com.highdee.folksocialapi.dto.request.post.CreatePostRequest;
 import com.highdee.folksocialapi.dto.request.post.ListPostRequest;
 import com.highdee.folksocialapi.dto.response.RestResponse;
 import com.highdee.folksocialapi.dto.response.post.PostResponse;
+import com.highdee.folksocialapi.exceptions.handlers.AuthentionException;
 import com.highdee.folksocialapi.exceptions.handlers.CustomException;
 import com.highdee.folksocialapi.exceptions.handlers.ResourceNotFoundException;
 import com.highdee.folksocialapi.models.auth.User;
@@ -55,10 +56,9 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<RestResponse<PostResponse>> create(@Valid @RequestBody CreatePostRequest request){
-
+    public ResponseEntity<RestResponse<PostResponse>> create(@Valid @RequestBody CreatePostRequest request) throws AuthentionException {
         // Retrieve the user
-        User user = userService.getLoggedInUser().orElseThrow(ResourceNotFoundException::new);
+        User user = userService.getLoggedInUser();
 
         // Create a new post
         PostResponse post = postService.create(request, user.getId());
@@ -68,8 +68,8 @@ public class PostController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<RestResponse<Object>> delete(@PathVariable long id) throws CustomException {
-        User user = userService.getLoggedInUser().orElseThrow(ResourceNotFoundException::new);
+    public ResponseEntity<RestResponse<Object>> delete(@PathVariable long id) throws CustomException, AuthentionException {
+        User user = userService.getLoggedInUser();
         postService.delete(id, user.getId());
 
         return ResponseEntity.status(200).body(RestResponse.success(null));

@@ -48,6 +48,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<RestResponse<Object>> handleOtherError(Exception ex){
         System.out.println(ex.getMessage());
+        System.out.println(ex.getStackTrace());
         ResponseCode responseCode = ResponseCode.SERVER_ERROR;
         RestResponse<Object> response = new RestResponse<Object>(responseCode.getCode(), ex.getMessage(), null);
         return ResponseEntity.status(400).body(response);

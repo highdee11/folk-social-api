@@ -1,18 +1,16 @@
 package com.highdee.folksocialapi.dto.response.post;
 
-import com.highdee.folksocialapi.dto.response.auth.UserResponse;
-import com.highdee.folksocialapi.dto.response.auth.UserSignInResponse;
-import com.highdee.folksocialapi.models.auth.User;
+import com.highdee.folksocialapi.dto.response.user.UserResponse;
 import com.highdee.folksocialapi.models.post.Post;
 import com.highdee.folksocialapi.models.post.PostMedia;
 import com.highdee.folksocialapi.models.post.Tag;
 import org.springframework.lang.Nullable;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
-public class PostResponse {
+public class PostResponse implements Serializable {
     private Long id;
     public String content;
 
@@ -33,8 +31,8 @@ public class PostResponse {
         this.author = new UserResponse(post.getUser());
 
         this.setTags(post.getTags());
-//        this.setParentPost(post.getParent());
         this.setMedia(post.getMediaList());
+//        this.setParentPost(post.getParent());
     }
 
     public String getContent() {

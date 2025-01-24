@@ -2,7 +2,9 @@ package com.highdee.folksocialapi.dto.response.post;
 
 import com.highdee.folksocialapi.models.post.PostMedia;
 
-public class PostMediaResponse {
+import java.io.Serializable;
+
+public class PostMediaResponse implements Serializable {
     public String type;
     public String url;
 
