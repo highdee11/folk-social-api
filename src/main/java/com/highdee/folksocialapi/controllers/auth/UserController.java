@@ -56,8 +56,8 @@ public class UserController {
         return ResponseEntity.status(200).body(RestResponse.success(userResponses));
     }
 
-    @GetMapping("/suggests")
-    public ResponseEntity<RestResponse> suggestUser() throws AuthentionException {
+    @GetMapping("/suggest")
+    public ResponseEntity<RestResponse<Page<UserResponse>>> suggestUser() throws AuthentionException {
         // Get Logged in user
         User loggedUser = userService.getLoggedInUser();
 
@@ -65,7 +65,7 @@ public class UserController {
         Set<TagResponse> tags = profileService.listInterest(loggedUser);
         Set<Long> tagIds = tags.stream().map(TagResponse::getId).collect(Collectors.toSet());
 
-        List<UserResponse> userResponses = userService.suggestUsers(tagIds);
+        Page<UserResponse> userResponses = userService.suggestUsers(loggedUser.getId(), tagIds);
 
         return ResponseEntity.status(200).body(RestResponse.success(userResponses));
     }

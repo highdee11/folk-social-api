@@ -19,6 +19,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User getById(Long id);
     Page<User> findAllByUsernameContainingIgnoreCase(Pageable pageable, String username);
 
-    @Query(value = "SELECT DISTINCT u.* FROM users u JOIN user_interest ui ON ui.user_id = u.id where ui.tag_id IN :interests", nativeQuery = true)
-    List<User> findUserByInterest(@Param("interests") Set<Long> interests);
+    @Query(value = "SELECT DISTINCT u.* FROM users u " +
+            "JOIN user_interest ui ON ui.user_id = u.id " +
+            "LEFT JOIN user_followers uf ON uf.followed_id = u.id AND uf.follower_id = :userId " +
+            "WHERE ui.tag_id IN :interests AND uf.follower_id IS NULL AND u.id != :userId",
+            nativeQuery = true)
+    Page<User> findUserByInterest(Pageable pageable, @Param("userId") Long id, @Param("interests") Set<Long> interests);
 }

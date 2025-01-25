@@ -7,6 +7,7 @@ import com.highdee.folksocialapi.dto.response.user.UserResponse;
 import com.highdee.folksocialapi.exceptions.handlers.AuthentionException;
 import com.highdee.folksocialapi.models.auth.User;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Set;
@@ -17,5 +18,5 @@ public interface UserService {
     User getLoggedInUser() throws AuthentionException;
     boolean userExistByUsername(String username);
     Page<UserResponse> searchUser(String name);
-    List<UserResponse> suggestUsers(Set<Long> tags);
+    Page<UserResponse> suggestUsers(Long id, Set<Long> tags);
 }
