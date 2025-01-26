@@ -11,6 +11,7 @@ import com.highdee.folksocialapi.exceptions.handlers.ResourceNotFoundException;
 import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.models.post.Tag;
 import com.highdee.folksocialapi.models.post.Post;
+import com.highdee.folksocialapi.services.post.GetPostService;
 import com.highdee.folksocialapi.services.post.PostService;
 import com.highdee.folksocialapi.services.tag.TagService;
 import com.highdee.folksocialapi.services.user.UserService;
@@ -32,13 +33,14 @@ import java.util.Optional;
 public class PostController {
 
     private final PostService postService;
-
     private final UserService userService;
+    private final GetPostService getPostService;
 
 
-    public PostController(PostService postService, UserService userService){
+    public PostController(PostService postService, UserService userService, GetPostService getPostService){
         this.postService = postService;
         this.userService = userService;
+        this.getPostService = getPostService;
     }
 
     @GetMapping("/{id}")
@@ -48,10 +50,30 @@ public class PostController {
         return ResponseEntity.status(200).body(RestResponse.success(post));
     }
 
-    @GetMapping
-    public ResponseEntity<RestResponse<Page<PostResponse>>> list(@ModelAttribute ListPostRequest request){
-        Page<PostResponse> postResponseList = postService.list(request);
+    @GetMapping("")
+    public ResponseEntity<RestResponse<Page<PostResponse>>> list(@ModelAttribute ListPostRequest request) throws AuthentionException {
+        // Retrieve the user
+        User user = userService.getLoggedInUser();
 
+        Page<PostResponse> postResponseList = postService.list(request, user.getId());
+        return ResponseEntity.status(200).body(RestResponse.success(postResponseList));
+    }
+
+    @GetMapping("/followed")
+    public ResponseEntity<RestResponse<Page<PostResponse>>> listFollowedPost(@ModelAttribute ListPostRequest request) throws AuthentionException {
+        // Retrieve the user
+        User user = userService.getLoggedInUser();
+
+        Page<PostResponse> postResponseList = getPostService.getFollowedPosts(request, user.getId());
+        return ResponseEntity.status(200).body(RestResponse.success(postResponseList));
+    }
+
+    @GetMapping("/foryou")
+    public ResponseEntity<RestResponse<Page<PostResponse>>> listForYouPost(@ModelAttribute ListPostRequest request) throws AuthentionException {
+        // Retrieve the user
+        User user = userService.getLoggedInUser();
+
+        Page<PostResponse> postResponseList = getPostService.getForYouPost(request, user.getId());
         return ResponseEntity.status(200).body(RestResponse.success(postResponseList));
     }
 

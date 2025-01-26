@@ -1,28 +1,38 @@
 package com.highdee.folksocialapi.dto.response.post;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.highdee.folksocialapi.dto.response.user.UserResponse;
 import com.highdee.folksocialapi.models.post.Post;
 import com.highdee.folksocialapi.models.post.PostMedia;
 import com.highdee.folksocialapi.models.post.Tag;
+import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 public class PostResponse implements Serializable {
     private Long id;
-    public String content;
-
-    public UserResponse author;
-    public LocalDateTime createdAt;
-    public List<PostMediaResponse> media;
+    private String content;
+    private UserResponse author;
+    @JsonProperty("created_at")
+    private LocalDateTime createdAt;
+    private List<PostMediaResponse> media;
     @Nullable
-    public PostResponse parentPost;
+    @JsonProperty("parent_post")
+    private PostResponse parentPost;
+    private List<TagResponse> tags;
+    private String since;
 
-    public List<TagResponse> tags;
+    public String getSince() {
+        PrettyTime prettyTime = new PrettyTime();
+        return prettyTime.format(createdAt);
+    }
 
-    public PostResponse() {}
+    private PostResponse() {}
 
     public PostResponse(Post post) {
         this.id = post.getId();
@@ -73,5 +83,13 @@ public class PostResponse implements Serializable {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags.stream().map(TagResponse::new).toList();
+    }
+
+    public UserResponse getAuthor() {
+        return author;
+    }
+
+    public List<TagResponse> getTags() {
+        return tags;
     }
 }

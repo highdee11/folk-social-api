@@ -48,7 +48,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<PostResponse> list(ListPostRequest request){
+    public Page<PostResponse> list(ListPostRequest request, Long userId){
 
         int page = request.getPage();
         int size = Math.min(request.getSize(), AppConstants.MAX_PAGE_SIZE);
@@ -65,8 +65,8 @@ public class PostServiceImpl implements PostService {
                     .map(PostResponse::new);
         }
 
-        return postRepository.findAll(pageRequest)
-                .map(PostResponse::new);
+        return postRepository.findAll(pageRequest).map(PostResponse::new);
+
     }
 
     @Override

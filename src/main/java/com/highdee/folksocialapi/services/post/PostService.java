@@ -13,7 +13,7 @@ import java.util.List;
 public interface PostService {
     PostResponse getOne(Long postId);
 
-    Page<PostResponse> list(ListPostRequest request);
+    Page<PostResponse> list(ListPostRequest request, Long id);
 
     PostResponse create(CreatePostRequest request, Long userId);
     void delete(Long postId, Long authorId) throws CustomException;

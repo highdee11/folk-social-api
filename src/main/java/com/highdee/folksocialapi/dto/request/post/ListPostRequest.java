@@ -1,5 +1,6 @@
 package com.highdee.folksocialapi.dto.request.post;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.highdee.folksocialapi.constants.AppConstants;
 import org.springframework.data.domain.Sort;
 import org.springframework.lang.Nullable;
@@ -9,10 +10,11 @@ public class ListPostRequest {
     private int size = AppConstants.DEFAULT_PAGE_SIZE;
     private String order = AppConstants.DEFAULT_PAGE_ORDER;
     private String orderBy = AppConstants.DEFAULT_PAGE_ORDERBY;
-
     private Long post_id;
-
     private Long author_id;
+
+    @JsonProperty("feed_type")
+    private String feedType;
 
     public int getPage() {
         return page;
@@ -38,7 +40,6 @@ public class ListPostRequest {
         this.post_id = post_id;
     }
 
-
     public Long getAuthorId() {
         return author_id;
     }
@@ -48,12 +49,19 @@ public class ListPostRequest {
     }
 
     public Sort getOrder() {
-        System.out.println(this.order);
         return order.equalsIgnoreCase("ASC") ?
                 Sort.by(this.orderBy).ascending(): Sort.by(this.orderBy).descending();
     }
 
     public void setOrder(String order) {
         this.order = order;
+    }
+
+    public String getFeedType() {
+        return feedType;
+    }
+
+    public void setFeedType(String feedType) {
+        this.feedType = feedType;
     }
 }
