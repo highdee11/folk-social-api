@@ -14,6 +14,7 @@ import com.highdee.folksocialapi.repositories.auth.UserRepository;
 import com.highdee.folksocialapi.repositories.post.PostRepository;
 import com.highdee.folksocialapi.services.tag.TagService;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
@@ -25,20 +26,29 @@ import java.util.Optional;
 
 @Service
 public class PostServiceImpl implements PostService {
+
     private final PostRepository postRepository;
+
     private final MediaService mediaService;
+
     private final UserRepository userRepository;
+
     private final TagService tagService;
+
+    private final PostStatisticsService statisticsService;
 
     public PostServiceImpl(PostRepository postRepository,
                            MediaService mediaService,
                            UserRepository userRepository,
-                           TagService tagService) {
+                           TagService tagService,
+                           PostStatisticsService statisticsService) {
         this.postRepository = postRepository;
         this.mediaService = mediaService;
         this.userRepository = userRepository;
         this.tagService = tagService;
+        this.statisticsService = statisticsService;
     }
+
 
     @Override
     @Cacheable(value = "oneProduct", key = "#postId")
@@ -73,14 +83,16 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public PostResponse create(CreatePostRequest request, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(ResourceNotFoundException::new);
-
+        Post parentPost = null;
+        
         // Create Post
         Post post = new Post();
         post.setUser(user);
         post.setContent(request.getContent());
 
+        // if post is a comment
         if(request.getParentId() != null){
-            Post parentPost = postRepository.findById(request.getParentId()).orElseThrow(ResourceNotFoundException::new);
+            parentPost = postRepository.findById(request.getParentId()).orElseThrow(ResourceNotFoundException::new);
             post.setParent(parentPost);
         }
 
@@ -98,6 +110,10 @@ public class PostServiceImpl implements PostService {
             mediaService.create(postMediaRequest, savedPost);
         });
 
+        if(parentPost != null){
+            statisticsService.updateCommentCount(parentPost, 1);
+        }
+
         return new PostResponse(savedPost);
     }
 
@@ -106,9 +122,15 @@ public class PostServiceImpl implements PostService {
     @CacheEvict(value = "oneProduct", key = "#postId")
     public void delete(Long postId, Long authorId) throws CustomException {
         Post post = postRepository.findById(postId).orElseThrow(ResourceNotFoundException::new);
+        Post parentPost = post.getParent();
 
         if(!post.getUserId().equals(authorId)){
             throw new CustomException("You're not authorized to delete this post");
+        }
+
+        // Update parent post stats
+        if(parentPost != null){
+            statisticsService.updateCommentCount(parentPost, -1);
         }
 
         postRepository.delete(post);
