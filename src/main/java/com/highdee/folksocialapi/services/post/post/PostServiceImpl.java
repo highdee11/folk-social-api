@@ -1,10 +1,11 @@
-package com.highdee.folksocialapi.services.post;
+package com.highdee.folksocialapi.services.post.post;
 
 import com.highdee.folksocialapi.constants.AppConstants;
 import com.highdee.folksocialapi.dto.request.post.CreatePostRequest;
 import com.highdee.folksocialapi.dto.request.post.ListPostRequest;
 import com.highdee.folksocialapi.dto.request.post.PostMediaRequest;
 import com.highdee.folksocialapi.dto.response.post.PostResponse;
+import com.highdee.folksocialapi.enums.PostStatisticTypes;
 import com.highdee.folksocialapi.exceptions.handlers.CustomException;
 import com.highdee.folksocialapi.exceptions.handlers.ResourceNotFoundException;
 import com.highdee.folksocialapi.models.auth.User;
@@ -12,17 +13,16 @@ import com.highdee.folksocialapi.models.post.Post;
 import com.highdee.folksocialapi.models.post.Tag;
 import com.highdee.folksocialapi.repositories.auth.UserRepository;
 import com.highdee.folksocialapi.repositories.post.PostRepository;
+import com.highdee.folksocialapi.services.post.media.MediaService;
+import com.highdee.folksocialapi.services.post.stats.PostStatisticsService;
 import com.highdee.folksocialapi.services.tag.TagService;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -51,14 +51,12 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    @Cacheable(value = "oneProduct", key = "#postId")
-    public PostResponse getOne(Long postId) {
-        Post post = postRepository.findById(postId).orElseThrow(ResourceNotFoundException::new);
-        return new PostResponse(post);
+    public Post getOne(Long postId) {
+        return postRepository.findById(postId).orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
-    public Page<PostResponse> list(ListPostRequest request, Long userId){
+    public Page<Post> list(ListPostRequest request, Long userId){
 
         int page = request.getPage();
         int size = Math.min(request.getSize(), AppConstants.MAX_PAGE_SIZE);
@@ -66,22 +64,20 @@ public class PostServiceImpl implements PostService {
         PageRequest pageRequest = PageRequest.of(page, size, sort);
 
         if(request.getAuthorId() != null){
-            return postRepository.findAllByUser_id(pageRequest, request.getAuthorId())
-                    .map(PostResponse::new);
+            return postRepository.findAllByUser_id(pageRequest, request.getAuthorId());
         }
 
         if(request.getPostId() != null){
-            return postRepository.findAllByParent_id(pageRequest, request.getPostId())
-                    .map(PostResponse::new);
+            return postRepository.findAllByParent_id(pageRequest, request.getPostId());
         }
 
-        return postRepository.findAll(pageRequest).map(PostResponse::new);
+        return postRepository.findAll(pageRequest);
 
     }
 
     @Override
     @Transactional
-    public PostResponse create(CreatePostRequest request, Long userId) {
+    public Post create(CreatePostRequest request, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(ResourceNotFoundException::new);
         Post parentPost = null;
         
@@ -111,26 +107,29 @@ public class PostServiceImpl implements PostService {
         });
 
         if(parentPost != null){
-            statisticsService.updateCommentCount(parentPost, 1);
+            statisticsService.updateStatCount(parentPost,
+                    PostStatisticTypes.COMMENT_COUNT,
+                    1);
         }
 
-        return new PostResponse(savedPost);
+        return savedPost;
     }
 
 
     @Override
-    @CacheEvict(value = "oneProduct", key = "#postId")
     public void delete(Long postId, Long authorId) throws CustomException {
         Post post = postRepository.findById(postId).orElseThrow(ResourceNotFoundException::new);
         Post parentPost = post.getParent();
 
-        if(!post.getUserId().equals(authorId)){
+        if(post.getUser().getId() != authorId){
             throw new CustomException("You're not authorized to delete this post");
         }
 
         // Update parent post stats
         if(parentPost != null){
-            statisticsService.updateCommentCount(parentPost, -1);
+            statisticsService.updateStatCount(parentPost,
+                    PostStatisticTypes.COMMENT_COUNT,
+                    -1);
         }
 
         postRepository.delete(post);

@@ -1,4 +1,4 @@
-package com.highdee.folksocialapi.services.post;
+package com.highdee.folksocialapi.services.post.post;
 
 import com.highdee.folksocialapi.constants.AppConstants;
 import com.highdee.folksocialapi.dto.request.post.ListPostRequest;

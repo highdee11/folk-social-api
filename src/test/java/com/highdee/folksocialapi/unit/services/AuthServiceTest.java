@@ -6,7 +6,9 @@ import com.highdee.folksocialapi.dto.response.auth.UserSignInResponse;
 import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.repositories.auth.UserRepository;
 import com.highdee.folksocialapi.services.auth.JwtService;
+import com.highdee.folksocialapi.services.auth.JwtServiceImpl;
 import com.highdee.folksocialapi.services.user.UserService;
+import com.highdee.folksocialapi.services.user.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -32,9 +34,10 @@ public class AuthServiceTest {
     AuthenticationManager authenticationManager;
 
     @Mock
-    JwtService jwtService;
+    JwtServiceImpl jwtService;
+
     @InjectMocks
-    UserService userService;
+    UserServiceImpl userService;
 
     @BeforeEach
     void setUp() {
@@ -45,6 +48,7 @@ public class AuthServiceTest {
     void testCreateAccount(){
         CreateUserRequest createUserRequest = new CreateUserRequest();
         createUserRequest.setEmail("test@gmail.com");
+        createUserRequest.setUsername("myusername");
         createUserRequest.setFirstname("firstname");
         createUserRequest.setLastname("lastname");
         createUserRequest.setDob(LocalDate.now());
@@ -53,6 +57,7 @@ public class AuthServiceTest {
         User savedUser = new User();
         savedUser.setEmail("test@gmail.com");
         savedUser.setFirstName("firstname");
+        savedUser.setUsername("myusername");
         savedUser.setLastName("lastname");
         savedUser.setDob(LocalDate.now());
         savedUser.setPassword("secret");
@@ -75,6 +80,7 @@ public class AuthServiceTest {
         User savedUser = new User();
         savedUser.setEmail("test@gmail.com");
         savedUser.setFirstName("firstname");
+        savedUser.setUsername("myusername");
         savedUser.setLastName("lastname");
         savedUser.setDob(LocalDate.now());
         savedUser.setPassword("secret");

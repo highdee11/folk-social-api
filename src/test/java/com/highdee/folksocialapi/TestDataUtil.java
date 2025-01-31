@@ -23,6 +23,7 @@ public class TestDataUtil {
             User testUser = new User();
             testUser.setFirstName("Test");
             testUser.setLastName("User");
+            testUser.setUsername("myusername");
             testUser.setEmail(email);
             testUser.setPassword(encoder.encode("secret"));
 

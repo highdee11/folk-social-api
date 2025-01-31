@@ -1,4 +1,4 @@
-package com.highdee.folksocialapi.services.post;
+package com.highdee.folksocialapi.services.post.post;
 
 import com.highdee.folksocialapi.dto.request.post.CreatePostRequest;
 import com.highdee.folksocialapi.dto.request.post.ListPostRequest;
@@ -11,10 +11,10 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface PostService {
-    PostResponse getOne(Long postId);
+    Post getOne(Long postId);
 
-    Page<PostResponse> list(ListPostRequest request, Long id);
+    Page<Post> list(ListPostRequest request, Long id);
 
-    PostResponse create(CreatePostRequest request, Long userId);
+    Post create(CreatePostRequest request, Long userId);
     void delete(Long postId, Long authorId) throws CustomException;
 }

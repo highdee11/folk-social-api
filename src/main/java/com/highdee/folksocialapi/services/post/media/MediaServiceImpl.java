@@ -1,12 +1,10 @@
-package com.highdee.folksocialapi.services.post;
+package com.highdee.folksocialapi.services.post.media;
 
 import com.highdee.folksocialapi.dto.request.post.PostMediaRequest;
 import com.highdee.folksocialapi.models.post.Post;
 import com.highdee.folksocialapi.models.post.PostMedia;
 import com.highdee.folksocialapi.repositories.post.PostMediaRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class MediaServiceImpl implements  MediaService{

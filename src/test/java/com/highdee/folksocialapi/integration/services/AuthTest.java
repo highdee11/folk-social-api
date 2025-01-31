@@ -46,6 +46,7 @@ public class AuthTest {
         CreateUserRequest createUserRequest = new CreateUserRequest();
         createUserRequest.setEmail("test@gmail.com");
         createUserRequest.setFirstname("firstname");
+        createUserRequest.setUsername("myusername");
         createUserRequest.setLastname("lastname");
         createUserRequest.setDob(LocalDate.now());
         createUserRequest.setPassword("secret");

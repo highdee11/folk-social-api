@@ -1,9 +1,11 @@
-package com.highdee.folksocialapi.services.post;
+package com.highdee.folksocialapi.services.post.stats;
 
 import com.highdee.folksocialapi.enums.PostStatisticTypes;
 import com.highdee.folksocialapi.models.post.Post;
 import com.highdee.folksocialapi.models.post.PostStatistic;
 import com.highdee.folksocialapi.repositories.post.PostStatisticRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -20,28 +22,34 @@ public class PostStatisticsImpl implements PostStatisticsService{
     }
 
     @Override
-    public void updateCommentCount(Post post, Integer v) {
-        String type = PostStatisticTypes.COMMENT_COUNT.name();
+    @CacheEvict(value = "postStatistics", key = "#type.name()+'_'+#post.id")
+    public void updateStatCount(Post post, PostStatisticTypes type, Integer v) {
         Optional<PostStatistic> existingStat =
-                repository.findByPostIdAndType(post.getId(), type);
+                repository.findByPostIdAndType(post.getId(), type.name());
 
         PostStatistic statistic = existingStat.orElse(new PostStatistic());
 
-        if(statistic.getId() == null){
+        if(statistic.getId() == null){ // Create new stat
             Map<String, Object> data = new HashMap<>();
             data.put("count", 0);
 
             statistic.setPost(post);
-            statistic.setType(type);
+            statistic.setType(type.name());
             statistic.setDataFromMap(data);
         }
+        // Update stats
         Map<String, Object> data = statistic.getDataAsMap();
         Integer count = Integer.parseInt(data.getOrDefault("count", 0).toString());
         count += v;
-        data.put("count", count);
+        data.put("count", Math.max(count, 0) );
 
         statistic.setDataFromMap(data);
-
         repository.save(statistic);
+    }
+
+    @Override
+    @Cacheable(value = "postStatistics", key = "#type.name()+'_'+#post.id")
+    public PostStatistic getSingleStat(Post post, PostStatisticTypes type) {
+        return repository.findByPostIdAndType(post.getId(), type.name()).orElse(null);
     }
 }

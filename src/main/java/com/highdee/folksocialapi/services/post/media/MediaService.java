@@ -1,4 +1,4 @@
-package com.highdee.folksocialapi.services.post;
+package com.highdee.folksocialapi.services.post.media;
 
 import com.highdee.folksocialapi.dto.request.post.PostMediaRequest;
 import com.highdee.folksocialapi.models.post.Post;

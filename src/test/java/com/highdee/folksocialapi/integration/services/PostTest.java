@@ -84,8 +84,6 @@ public class PostTest {
             .header(HttpHeaders.AUTHORIZATION, "Bearer "+jwt)
             .content(objectMapper.writeValueAsString(createPostRequest))
         ).andDo((e)-> {
-            System.out.println(e.getResponse().getContentAsString());
-
             RestResponse<PostResponse> resp = objectMapper.readValue(e.getResponse().getContentAsString(),
                     new TypeReference<RestResponse<PostResponse>>(){} );
 
@@ -115,6 +113,6 @@ public class PostTest {
 
         mockMvc.perform(get("/api/post").header("Authorization", "Bearer "+jwt))
                 .andExpect(jsonPath("$.code").value(ResponseCode.REQUEST_SUCCESSFUL.getCode()))
-                .andExpect(jsonPath("$.data").isArray());
+                .andExpect(jsonPath("$.data.content").isArray());
     }
 }
