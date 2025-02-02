@@ -1,5 +1,6 @@
 package com.highdee.folksocialapi.services.post.stats;
 
+import com.highdee.folksocialapi.dto.response.post.PostStatisticsResponse;
 import com.highdee.folksocialapi.enums.PostStatisticTypes;
 import com.highdee.folksocialapi.models.post.Post;
 import com.highdee.folksocialapi.models.post.PostStatistic;
@@ -8,9 +9,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PostStatisticsImpl implements PostStatisticsService{
@@ -48,8 +47,15 @@ public class PostStatisticsImpl implements PostStatisticsService{
     }
 
     @Override
-    @Cacheable(value = "postStatistics", key = "#type.name()+'_'+#post.id")
-    public PostStatistic getSingleStat(Post post, PostStatisticTypes type) {
-        return repository.findByPostIdAndType(post.getId(), type.name()).orElse(null);
+    public PostStatistic getSingleStat(Long id, PostStatisticTypes type) {
+        return repository.findByPostIdAndType(id, type.name()).orElse(null);
+    }
+
+    @Cacheable(value = "postStatistics", key = "#type.name()+'_'+#id")
+    public PostStatisticsResponse getSingleStatCached(Long id, PostStatisticTypes type) {
+        Optional<PostStatistic> statistic = repository.findByPostIdAndType(id, type.name());
+        return statistic.map(PostStatisticsResponse::new)
+                .orElseGet(() -> PostStatisticsResponse.EmptyPostStatisticsResponse(type));
+
     }
 }

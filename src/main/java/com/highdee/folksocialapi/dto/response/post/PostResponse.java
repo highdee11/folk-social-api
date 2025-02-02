@@ -15,6 +15,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -25,6 +26,7 @@ public class PostResponse implements Serializable {
     private List<PostMediaResponse> media;
     private List<TagResponse> tags;
     private String since;
+    private Map<String, Object> statistics;
 
     @JsonProperty("created_at")
     private LocalDateTime createdAt;
@@ -55,6 +57,7 @@ public class PostResponse implements Serializable {
         if(parentPost == null) return;
         this.parentPost = new PostResponse(parentPost);
     }
+
     public void setMedia(List<PostMedia> media) {
         this.media = media.stream().map(PostMediaResponse::new).toList();
     }

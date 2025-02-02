@@ -12,6 +12,7 @@ import com.highdee.folksocialapi.models.post.Post;
 import com.highdee.folksocialapi.models.post.Tag;
 import com.highdee.folksocialapi.services.post.post.PostService;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -20,10 +21,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class PostBean {
     private final PostService postService;
+
+    @Autowired
+    private PostStatisticBean postStatisticBean;
 
     public PostBean(PostService postService) {
         this.postService = postService;
@@ -31,12 +36,24 @@ public class PostBean {
 
     @Cacheable(value = "oneProduct", key = "#postId")
     public PostResponse getOne(Long postId) {
+        // Get Post
         Post post = postService.getOne(postId);
-        return new PostResponse(post);
+
+        // Get Post Stats
+        Map<String, Object> stats = postStatisticBean.getPostStats(postId);
+        PostResponse response = new PostResponse(post);
+        response.setStatistics(stats);
+
+        return response;
     }
 
     public Page<PostResponse> list(ListPostRequest request, Long userId){
-        return postService.list(request, userId).map(PostResponse::new);
+        return postService.list(request, userId).map(post -> { // Get Stats for each
+            Map<String, Object> stats = postStatisticBean.getPostStats(post.getId());
+            PostResponse response = new PostResponse(post);
+            response.setStatistics(stats);
+            return response;
+        });
     }
 
     public PostResponse create(CreatePostRequest request, Long userId) {

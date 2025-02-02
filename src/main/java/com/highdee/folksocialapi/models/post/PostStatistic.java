@@ -1,5 +1,6 @@
 package com.highdee.folksocialapi.models.post;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
@@ -22,6 +23,7 @@ public class PostStatistic {
     private String type;
 
     @ManyToOne()
+    @JsonIgnore
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 

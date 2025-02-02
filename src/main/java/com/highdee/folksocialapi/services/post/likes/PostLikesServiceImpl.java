@@ -41,17 +41,15 @@ public class PostLikesServiceImpl implements PostLikesService {
     }
 
     @Override
-    @CacheEvict(value = "postLikeCount", key = "#post.id")
     public void updatePostLikeCount(Post post, int v) {
         postStatisticsService.updateStatCount(post,
                 PostStatisticTypes.POST_LIKES, v);
     }
 
     @Override
-    @Cacheable(value = "postLikeCount", key = "#post.id")
     public int getPostLikeCount(Post post) {
         try {
-            PostStatistic statistic = postStatisticsService.getSingleStat(post, PostStatisticTypes.POST_LIKES);
+            PostStatistic statistic = postStatisticsService.getSingleStat(post.getId(), PostStatisticTypes.POST_LIKES);
             if(statistic != null){
                 return (int) statistic.getDataAsMap().get("count");
             }
@@ -60,4 +58,6 @@ public class PostLikesServiceImpl implements PostLikesService {
         }
         return 0;
     }
+
+
 }
