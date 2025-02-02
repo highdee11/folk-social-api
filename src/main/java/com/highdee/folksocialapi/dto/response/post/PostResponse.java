@@ -53,6 +53,7 @@ public class PostResponse implements Serializable {
 //        this.setParentPost(post.getParent());
     }
 
+
     public void setParentPost(@Nullable Post parentPost){
         if(parentPost == null) return;
         this.parentPost = new PostResponse(parentPost);

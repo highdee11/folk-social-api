@@ -1,5 +1,6 @@
 package com.highdee.folksocialapi.controllers.post;
 
+import com.highdee.folksocialapi.beans.post.GetPostBean;
 import com.highdee.folksocialapi.beans.post.PostBean;
 import com.highdee.folksocialapi.dto.request.post.CreatePostRequest;
 import com.highdee.folksocialapi.dto.request.post.ListPostRequest;
@@ -12,6 +13,7 @@ import com.highdee.folksocialapi.services.post.post.GetPostService;
 import com.highdee.folksocialapi.services.post.post.PostService;
 import com.highdee.folksocialapi.services.user.UserService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,8 @@ public class PostController {
     private final UserService userService;
     private final GetPostService getPostService;
 
+    @Autowired
+    private GetPostBean getPostBean;
 
     public PostController(PostBean postBean, UserService userService, GetPostService getPostService){
         this.postBean = postBean;
@@ -52,7 +56,7 @@ public class PostController {
         // Retrieve the user
         User user = userService.getLoggedInUser();
 
-        Page<PostResponse> postResponseList = getPostService.getFollowedPosts(request, user.getId());
+        Page<PostResponse> postResponseList = getPostBean.getFollowedPosts(request, user.getId());
         return ResponseEntity.status(200).body(RestResponse.success(postResponseList));
     }
 
@@ -61,7 +65,7 @@ public class PostController {
         // Retrieve the user
         User user = userService.getLoggedInUser();
 
-        Page<PostResponse> postResponseList = getPostService.getForYouPost(request, user.getId());
+        Page<PostResponse> postResponseList = getPostBean.getForYouPost(request, user.getId());
         return ResponseEntity.status(200).body(RestResponse.success(postResponseList));
     }
 

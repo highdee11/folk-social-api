@@ -1,26 +1,16 @@
 package com.highdee.folksocialapi.beans.post;
 
-import com.highdee.folksocialapi.constants.AppConstants;
 import com.highdee.folksocialapi.dto.request.post.CreatePostRequest;
 import com.highdee.folksocialapi.dto.request.post.ListPostRequest;
-import com.highdee.folksocialapi.dto.request.post.PostMediaRequest;
 import com.highdee.folksocialapi.dto.response.post.PostResponse;
 import com.highdee.folksocialapi.exceptions.handlers.CustomException;
-import com.highdee.folksocialapi.exceptions.handlers.ResourceNotFoundException;
-import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.models.post.Post;
-import com.highdee.folksocialapi.models.post.Tag;
 import com.highdee.folksocialapi.services.post.post.PostService;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 import java.util.Map;
 
 @Component

@@ -22,7 +22,7 @@ public class PostStatisticBean {
 
         // Retrieve cached stats
         for(PostStatisticTypes type: types){
-            statistics.put(type.name(), postStatisticsService.getSingleStatCached(postId, type));
+            statistics.put(type.name().toLowerCase(), postStatisticsService.getSingleStatCached(postId, type));
         }
 
         return statistics;
