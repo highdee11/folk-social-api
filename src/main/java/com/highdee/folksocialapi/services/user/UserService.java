@@ -14,8 +14,6 @@ import java.util.Set;
 
 public interface UserService {
     User create(CreateUserRequest createUserRequest);
-    UserSignInResponse login(UserLoginRequest loginRequest);
-    User getLoggedInUser() throws AuthentionException;
     boolean userExistByUsername(String username);
     Page<UserResponse> searchUser(String name);
     Page<UserResponse> suggestUsers(Long id, Set<Long> tags);

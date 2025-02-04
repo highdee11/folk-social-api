@@ -27,6 +27,7 @@ public class PostResponse implements Serializable {
     private List<TagResponse> tags;
     private String since;
     private Map<String, Object> statistics;
+    private boolean hasLiked = false;
 
     @JsonProperty("created_at")
     private LocalDateTime createdAt;

@@ -100,8 +100,7 @@ public class PostTest {
         // Retrieve single post
         mockMvc.perform(
                 get("/api/post/"+postId)
-                        .header("Authorization", "Bearer "+jwt)
-                )
+                        .header("Authorization", "Bearer "+jwt))
                 .andDo((e)-> System.out.println(e.getResponse().getContentAsString()))
                 .andExpect(jsonPath("$.code").value(ResponseCode.REQUEST_SUCCESSFUL.getCode()))
                 .andExpect(jsonPath("$.data.id").isNotEmpty());

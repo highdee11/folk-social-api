@@ -7,9 +7,11 @@ import com.highdee.folksocialapi.dto.response.user.UserResponse;
 import com.highdee.folksocialapi.exceptions.handlers.AuthentionException;
 import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.models.post.Tag;
+import com.highdee.folksocialapi.services.auth.AuthService;
 import com.highdee.folksocialapi.services.user.ProfileService;
 import com.highdee.folksocialapi.services.user.UserPreferenceService;
 import com.highdee.folksocialapi.services.user.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +32,9 @@ public class UserController {
 
     private final ProfileService profileService;
 
+    @Autowired
+    private AuthService authService;
+
     public UserController(UserService userService, UserPreferenceService preferenceService, ProfileService profileService){
         this.userService = userService;
         this.preferenceService = preferenceService;
@@ -38,13 +43,13 @@ public class UserController {
 
     @GetMapping("")
     public ResponseEntity<RestResponse<Object>> getUser() throws AuthentionException {
-        User user = userService.getLoggedInUser();
+        User user = authService.getLoggedInUser();
         return ResponseEntity.status(200).body(RestResponse.success(new UserResponse(user)));
     }
 
     @GetMapping("/preference")
     public ResponseEntity<RestResponse<UserPreferenceResponse>> userPreference() throws AuthentionException {
-        User user = userService.getLoggedInUser();
+        User user = authService.getLoggedInUser();
         UserPreferenceResponse response = preferenceService.getUserPreference(user);
         return ResponseEntity.status(200).body(RestResponse.success(response));
     }
@@ -59,7 +64,7 @@ public class UserController {
     @GetMapping("/suggest")
     public ResponseEntity<RestResponse<Page<UserResponse>>> suggestUser() throws AuthentionException {
         // Get Logged in user
-        User loggedUser = userService.getLoggedInUser();
+        User loggedUser = authService.getLoggedInUser();
 
         // Retrieve user interest
         Set<TagResponse> tags = profileService.listInterest(loggedUser);

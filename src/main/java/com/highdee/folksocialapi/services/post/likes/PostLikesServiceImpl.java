@@ -26,6 +26,7 @@ public class PostLikesServiceImpl implements PostLikesService {
     }
 
     @Override
+    @CacheEvict(value = "userLikedPost", key = "#post.getId() +'_'+#user.getId()")
     public void togglePostLike(Post post, User user) {
        Optional<PostLike> existingLike =
                repository.findByPostIdAndUserId(post.getId(), user.getId());
@@ -42,9 +43,9 @@ public class PostLikesServiceImpl implements PostLikesService {
 
     @Override
     public void updatePostLikeCount(Post post, int v) {
-        postStatisticsService.updateStatCount(post,
-                PostStatisticTypes.POST_LIKES, v);
+        postStatisticsService.updateStatCount(post, PostStatisticTypes.POST_LIKES, v);
     }
+
 
     @Override
     public int getPostLikeCount(Post post) {
@@ -59,5 +60,12 @@ public class PostLikesServiceImpl implements PostLikesService {
         return 0;
     }
 
+    @Override
+    @Cacheable(value = "userLikedPost", key = "#postId +'_'+#userId")
+    public boolean userLikedPost(Long postId, Long userId) {
+        Optional<PostLike> existingLike =
+                repository.findByPostIdAndUserId(postId, userId);
 
+        return existingLike.isPresent();
+    }
 }

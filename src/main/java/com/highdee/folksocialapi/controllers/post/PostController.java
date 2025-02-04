@@ -9,6 +9,7 @@ import com.highdee.folksocialapi.dto.response.post.PostResponse;
 import com.highdee.folksocialapi.exceptions.handlers.AuthentionException;
 import com.highdee.folksocialapi.exceptions.handlers.CustomException;
 import com.highdee.folksocialapi.models.auth.User;
+import com.highdee.folksocialapi.services.auth.AuthService;
 import com.highdee.folksocialapi.services.post.post.GetPostService;
 import com.highdee.folksocialapi.services.post.post.PostService;
 import com.highdee.folksocialapi.services.user.UserService;
@@ -27,6 +28,9 @@ public class PostController {
     private final GetPostService getPostService;
 
     @Autowired
+    private AuthService authService;
+
+    @Autowired
     private GetPostBean getPostBean;
 
     public PostController(PostBean postBean, UserService userService, GetPostService getPostService){
@@ -38,14 +42,13 @@ public class PostController {
     @GetMapping("/{id}")
     public ResponseEntity<RestResponse<PostResponse>> getOne(@PathVariable Long id){
         PostResponse post = postBean.getOne(id);
-
         return ResponseEntity.status(200).body(RestResponse.success(post));
     }
 
     @GetMapping("")
     public ResponseEntity<RestResponse<Page<PostResponse>>> list(@ModelAttribute ListPostRequest request) throws AuthentionException {
         // Retrieve the user
-        User user = userService.getLoggedInUser();
+        User user = authService.getLoggedInUser();
 
         Page<PostResponse> postResponseList = postBean.list(request, user.getId());
         return ResponseEntity.status(200).body(RestResponse.success(postResponseList));
@@ -54,7 +57,7 @@ public class PostController {
     @GetMapping("/followed")
     public ResponseEntity<RestResponse<Page<PostResponse>>> listFollowedPost(@ModelAttribute ListPostRequest request) throws AuthentionException {
         // Retrieve the user
-        User user = userService.getLoggedInUser();
+        User user = authService.getLoggedInUser();
 
         Page<PostResponse> postResponseList = getPostBean.getFollowedPosts(request, user.getId());
         return ResponseEntity.status(200).body(RestResponse.success(postResponseList));
@@ -63,7 +66,7 @@ public class PostController {
     @GetMapping("/foryou")
     public ResponseEntity<RestResponse<Page<PostResponse>>> listForYouPost(@ModelAttribute ListPostRequest request) throws AuthentionException {
         // Retrieve the user
-        User user = userService.getLoggedInUser();
+        User user = authService.getLoggedInUser();
 
         Page<PostResponse> postResponseList = getPostBean.getForYouPost(request, user.getId());
         return ResponseEntity.status(200).body(RestResponse.success(postResponseList));
@@ -72,7 +75,7 @@ public class PostController {
     @PostMapping
     public ResponseEntity<RestResponse<PostResponse>> create(@Valid @RequestBody CreatePostRequest request) throws AuthentionException {
         // Retrieve the user
-        User user = userService.getLoggedInUser();
+        User user = authService.getLoggedInUser();
 
         // Create a new post
         PostResponse post = postBean.create(request, user.getId());
@@ -83,7 +86,7 @@ public class PostController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<RestResponse<Object>> delete(@PathVariable long id) throws CustomException, AuthentionException {
-        User user = userService.getLoggedInUser();
+        User user = authService.getLoggedInUser();
         postBean.delete(id, user.getId());
 
         return ResponseEntity.status(200).body(RestResponse.success(null));

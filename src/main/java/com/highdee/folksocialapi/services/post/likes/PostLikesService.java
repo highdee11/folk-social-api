@@ -7,4 +7,5 @@ public interface PostLikesService {
     void togglePostLike(Post post, User user);
     void updatePostLikeCount(Post post, int v);
     int getPostLikeCount(Post post);
+    boolean userLikedPost(Long postId, Long userId);
 }

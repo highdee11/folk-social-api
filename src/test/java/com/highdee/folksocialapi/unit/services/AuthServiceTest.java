@@ -5,6 +5,8 @@ import com.highdee.folksocialapi.dto.request.auth.UserLoginRequest;
 import com.highdee.folksocialapi.dto.response.auth.UserSignInResponse;
 import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.repositories.auth.UserRepository;
+import com.highdee.folksocialapi.services.auth.AuthService;
+import com.highdee.folksocialapi.services.auth.AuthServiceImpl;
 import com.highdee.folksocialapi.services.auth.JwtService;
 import com.highdee.folksocialapi.services.auth.JwtServiceImpl;
 import com.highdee.folksocialapi.services.user.UserService;
@@ -35,6 +37,9 @@ public class AuthServiceTest {
 
     @Mock
     JwtServiceImpl jwtService;
+
+    @InjectMocks
+    AuthServiceImpl authService;
 
     @InjectMocks
     UserServiceImpl userService;
@@ -89,7 +94,7 @@ public class AuthServiceTest {
         when(userRepository.findByEmail(any(String.class))).thenReturn(savedUser);
         when(jwtService.generateToken(any(String.class))).thenReturn("jwt-token");
 
-        UserSignInResponse userSignInResponse = userService.login(userLoginRequest);
+        UserSignInResponse userSignInResponse = authService.login(userLoginRequest);
 
         assertEquals("test@gmail.com", userSignInResponse.email);
         assertEquals("jwt-token", userSignInResponse.token);
@@ -104,6 +109,6 @@ public class AuthServiceTest {
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenThrow(new BadCredentialsException(""));
 
-        assertThrows(AuthenticationException.class, ()-> userService.login(userLoginRequest));
+        assertThrows(AuthenticationException.class, ()-> authService.login(userLoginRequest));
     }
 }

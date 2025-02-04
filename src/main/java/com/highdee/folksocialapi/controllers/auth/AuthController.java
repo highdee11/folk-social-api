@@ -5,6 +5,7 @@ import com.highdee.folksocialapi.dto.request.auth.UserLoginRequest;
 import com.highdee.folksocialapi.dto.response.RestResponse;
 import com.highdee.folksocialapi.dto.response.auth.UserSignInResponse;
 import com.highdee.folksocialapi.enums.ResponseCode;
+import com.highdee.folksocialapi.services.auth.AuthService;
 import com.highdee.folksocialapi.services.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +18,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    final UserService userService;
+    private final UserService userService;
+
+    private final AuthService authService;
+
 
     @Value("${folk.social.api.secretkey}")
     private String secretkey;
 
     @Autowired
-    public AuthController(UserService userService){
+    public AuthController(UserService userService, AuthService authService){
         this.userService = userService;
+        this.authService = authService;
     }
 
     @PostMapping("/create-account")
@@ -39,7 +44,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<RestResponse> login(@Valid @RequestBody UserLoginRequest request){
         try {
-            UserSignInResponse response = userService.login(request);
+            UserSignInResponse response = authService.login(request);
             return ResponseEntity.status(200).body(RestResponse.success(response));
         }catch (AuthenticationException exception){
             ResponseCode code = ResponseCode.INVALID_CREDENTIAL;

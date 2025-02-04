@@ -5,6 +5,7 @@ import com.highdee.folksocialapi.dto.request.post.ListPostRequest;
 import com.highdee.folksocialapi.dto.response.post.PostResponse;
 import com.highdee.folksocialapi.exceptions.handlers.CustomException;
 import com.highdee.folksocialapi.models.post.Post;
+import com.highdee.folksocialapi.services.post.likes.PostLikesServiceImpl;
 import com.highdee.folksocialapi.services.post.post.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -15,10 +16,14 @@ import java.util.Map;
 
 @Component
 public class PostBean {
-    private final PostService postService;
 
     @Autowired
+    private final PostService postService;
+    @Autowired
     private PostStatisticBean postStatisticBean;
+
+    @Autowired
+    private PostLikesServiceImpl postLikesService;
 
     public PostBean(PostService postService) {
         this.postService = postService;

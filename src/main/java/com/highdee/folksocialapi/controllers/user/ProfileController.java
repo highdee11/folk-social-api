@@ -7,10 +7,12 @@ import com.highdee.folksocialapi.enums.ResponseCode;
 import com.highdee.folksocialapi.exceptions.handlers.AuthentionException;
 import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.models.post.Tag;
+import com.highdee.folksocialapi.services.auth.AuthService;
 import com.highdee.folksocialapi.services.tag.TagService;
 import com.highdee.folksocialapi.services.user.ProfileService;
 import com.highdee.folksocialapi.services.user.UserService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,17 +28,17 @@ public class ProfileController {
 
     private final ProfileService profileService;
 
-    private final UserService userService;
+    private final AuthService authService;
 
-    public ProfileController(TagService tagService, ProfileService profileService, UserService userService) {
+    public ProfileController(TagService tagService, ProfileService profileService, AuthService authService) {
         this.tagService = tagService;
         this.profileService = profileService;
-        this.userService = userService;
+        this.authService = authService;
     }
 
     @PostMapping("/interests/update")
     public ResponseEntity<RestResponse<Object>> updateUserTags(@Valid @RequestBody UpdateInterestRequest request) throws AuthentionException {
-        User user = userService.getLoggedInUser();
+        User user = authService.getLoggedInUser();
         List<Tag> tags = tagService.createAllTags(request.getInterests());
         profileService.updateInterest(tags, user.getId());
 
@@ -45,7 +47,7 @@ public class ProfileController {
 
     @GetMapping("/interests")
     public ResponseEntity<RestResponse<Object>> listInterest() throws AuthentionException {
-        User user = userService.getLoggedInUser();
+        User user = authService.getLoggedInUser();
         Set<TagResponse> interests = profileService.listInterest(user);
 
         return ResponseEntity.status(200).body(RestResponse.success(interests));

@@ -30,14 +30,11 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
     final UserRepository userRepository;
 
-    final AuthenticationManager authenticationManager;
-
     final JwtService jwtService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager, JwtService jwtService) {
+    public UserServiceImpl(UserRepository userRepository, JwtService jwtService) {
         this.userRepository = userRepository;
-        this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
     }
 
@@ -57,37 +54,6 @@ public class UserServiceImpl implements UserService {
         }
 
         return userRepository.save(user);
-    }
-
-    @Override
-    public UserSignInResponse login(UserLoginRequest loginRequest){
-
-        // Authenticate user
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.email, loginRequest.password));
-
-        // Retrieve user
-        User user = userRepository.findByEmail(loginRequest.email);
-        String token = jwtService.generateToken(user.getEmail());
-
-        // Build login response
-        UserSignInResponse userSignInResponse = new UserSignInResponse();
-        userSignInResponse.setId(String.valueOf(user.getId()));
-        userSignInResponse.setEmail(user.getEmail());
-        userSignInResponse.setFirstname(user.getFirstName());
-        userSignInResponse.setLastname(user.getLastName());
-        userSignInResponse.setToken(token);
-
-
-        return userSignInResponse;
-    }
-
-    @Override
-    public User getLoggedInUser() throws AuthentionException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userId = authentication.getName();
-
-         return userRepository.findById(Long.parseLong(userId))
-                .orElseThrow(()-> new AuthentionException(ResponseCode.AUTHENTICATION_ERROR.getMessage()));
     }
 
     @Override
