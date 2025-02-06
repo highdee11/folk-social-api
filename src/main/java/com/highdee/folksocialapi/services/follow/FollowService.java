@@ -7,10 +7,10 @@ import com.highdee.folksocialapi.models.UserFollow;
 import com.highdee.folksocialapi.models.auth.User;
 
 public interface FollowService {
-    public void createFollow(CreateFollowRequest request, User follower) throws CustomException;
-
-    public void unFollow(UnFollowRequest request, User follower) throws CustomException;
-
-    public boolean checkIfAlreadyFollower(Long followerId, Long FollowedId);
-    public UserFollow getFollow(Long followerId, Long FollowedId);
+    void createFollow(CreateFollowRequest request, User follower) throws CustomException;
+    void unFollow(UnFollowRequest request, User follower) throws CustomException;
+    boolean checkIfAlreadyFollower(Long followerId, Long FollowedId);
+    UserFollow getFollow(Long followerId, Long FollowedId);
+    int getUserFollowers(Long followerId);
+    int getUserFollowing(Long followedId);
 }

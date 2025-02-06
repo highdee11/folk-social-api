@@ -1,5 +1,6 @@
 package com.highdee.folksocialapi.controllers.auth;
 
+import com.highdee.folksocialapi.dto.request.auth.UpdateUserRequest;
 import com.highdee.folksocialapi.dto.response.RestResponse;
 import com.highdee.folksocialapi.dto.response.post.TagResponse;
 import com.highdee.folksocialapi.dto.response.user.UserPreferenceResponse;
@@ -11,12 +12,11 @@ import com.highdee.folksocialapi.services.auth.AuthService;
 import com.highdee.folksocialapi.services.user.ProfileService;
 import com.highdee.folksocialapi.services.user.UserPreferenceService;
 import com.highdee.folksocialapi.services.user.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
@@ -45,6 +45,13 @@ public class UserController {
     public ResponseEntity<RestResponse<Object>> getUser() throws AuthentionException {
         User user = authService.getLoggedInUser();
         return ResponseEntity.status(200).body(RestResponse.success(new UserResponse(user)));
+    }
+
+    @PutMapping("")
+    public ResponseEntity<RestResponse> updateUser(@Valid @RequestBody UpdateUserRequest request) throws AuthentionException {
+        User user = authService.getLoggedInUser();
+        profileService.updateUser(user.getId(), request);
+        return ResponseEntity.status(200).body(RestResponse.success(null));
     }
 
     @GetMapping("/preference")

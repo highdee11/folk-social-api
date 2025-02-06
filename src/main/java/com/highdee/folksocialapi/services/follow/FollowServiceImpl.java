@@ -1,5 +1,6 @@
 package com.highdee.folksocialapi.services.follow;
 
+import com.highdee.folksocialapi.constants.CacheConst;
 import com.highdee.folksocialapi.dto.request.follow.CreateFollowRequest;
 import com.highdee.folksocialapi.dto.request.follow.UnFollowRequest;
 import com.highdee.folksocialapi.exceptions.handlers.CustomException;
@@ -8,6 +9,8 @@ import com.highdee.folksocialapi.models.UserFollow;
 import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.repositories.FollowRepository;
 import com.highdee.folksocialapi.repositories.auth.UserRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -65,5 +68,15 @@ public class FollowServiceImpl implements FollowService{
     @Override
     public UserFollow getFollow(Long followerId, Long followedId) {
         return followRepository.findByFollowedIdAndFollowerId(followedId, followerId);
+    }
+
+    @Override
+    public int getUserFollowers(Long followerId) {
+        return followRepository.getFollowersCount(followerId);
+    }
+
+    @Override
+    public int getUserFollowing(Long followedId) {
+        return followRepository.getFollowingCount(followedId);
     }
 }

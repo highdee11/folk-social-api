@@ -1,5 +1,6 @@
 package com.highdee.folksocialapi.services.post.likes;
 
+import com.highdee.folksocialapi.constants.CacheConst;
 import com.highdee.folksocialapi.enums.PostStatisticTypes;
 import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.models.post.Post;
@@ -26,7 +27,7 @@ public class PostLikesServiceImpl implements PostLikesService {
     }
 
     @Override
-    @CacheEvict(value = "userLikedPost", key = "#post.getId() +'_'+#user.getId()")
+    @CacheEvict(value = CacheConst.USER_LIKED_POST, key = "#post.getId() +'_'+#user.getId()")
     public void togglePostLike(Post post, User user) {
        Optional<PostLike> existingLike =
                repository.findByPostIdAndUserId(post.getId(), user.getId());
@@ -61,7 +62,7 @@ public class PostLikesServiceImpl implements PostLikesService {
     }
 
     @Override
-    @Cacheable(value = "userLikedPost", key = "#postId +'_'+#userId")
+    @Cacheable(value = CacheConst.USER_LIKED_POST, key = "#postId +'_'+#userId")
     public boolean userLikedPost(Long postId, Long userId) {
         Optional<PostLike> existingLike =
                 repository.findByPostIdAndUserId(postId, userId);

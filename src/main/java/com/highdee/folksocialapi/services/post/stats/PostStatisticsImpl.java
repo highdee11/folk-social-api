@@ -1,5 +1,6 @@
 package com.highdee.folksocialapi.services.post.stats;
 
+import com.highdee.folksocialapi.constants.CacheConst;
 import com.highdee.folksocialapi.dto.response.post.PostStatisticsResponse;
 import com.highdee.folksocialapi.enums.PostStatisticTypes;
 import com.highdee.folksocialapi.models.post.Post;
@@ -21,7 +22,7 @@ public class PostStatisticsImpl implements PostStatisticsService{
     }
 
     @Override
-    @CacheEvict(value = "postStatistics", key = "#type.name()+'_'+#post.id")
+    @CacheEvict(value = CacheConst.POST_STATISTICS, key = "#type.name()+'_'+#post.id")
     public void updateStatCount(Post post, PostStatisticTypes type, Integer v) {
         Optional<PostStatistic> existingStat =
                 repository.findByPostIdAndType(post.getId(), type.name());
@@ -51,7 +52,7 @@ public class PostStatisticsImpl implements PostStatisticsService{
         return repository.findByPostIdAndType(id, type.name()).orElse(null);
     }
 
-    @Cacheable(value = "postStatistics", key = "#type.name()+'_'+#id")
+    @Cacheable(value = CacheConst.POST_STATISTICS, key = "#type.name()+'_'+#id")
     public PostStatisticsResponse getSingleStatCached(Long id, PostStatisticTypes type) {
         Optional<PostStatistic> statistic = repository.findByPostIdAndType(id, type.name());
         return statistic.map(PostStatisticsResponse::new)

@@ -16,9 +16,9 @@ import java.time.LocalDate;
 @Setter
 public class UpdateUserRequest {
 
-    private String firstname;
+    private String firstname = "";
 
-    private String lastname;
+    private String lastname = "";
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @JsonFormat(pattern = "dd-MM-yyyy")

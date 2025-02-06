@@ -1,5 +1,6 @@
 package com.highdee.folksocialapi.beans.post;
 
+import com.highdee.folksocialapi.constants.CacheConst;
 import com.highdee.folksocialapi.dto.request.post.CreatePostRequest;
 import com.highdee.folksocialapi.dto.request.post.ListPostRequest;
 import com.highdee.folksocialapi.dto.response.post.PostResponse;
@@ -29,7 +30,7 @@ public class PostBean {
         this.postService = postService;
     }
 
-    @Cacheable(value = "oneProduct", key = "#postId")
+    @Cacheable(value = CacheConst.SINGLE_POST, key = "#postId")
     public PostResponse getOne(Long postId) {
         // Get Post
         Post post = postService.getOne(postId);
@@ -56,7 +57,7 @@ public class PostBean {
         return new PostResponse(post);
     }
 
-    @CacheEvict(value = "oneProduct", key = "#postId")
+    @CacheEvict(value = CacheConst.SINGLE_POST, key = "#postId")
     public void delete(Long postId, Long authorId) throws CustomException {
        postService.delete(postId, authorId);
     }

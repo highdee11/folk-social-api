@@ -3,6 +3,7 @@ package com.highdee.folksocialapi.controllers.user;
 import com.highdee.folksocialapi.dto.request.user.UpdateInterestRequest;
 import com.highdee.folksocialapi.dto.response.RestResponse;
 import com.highdee.folksocialapi.dto.response.post.TagResponse;
+import com.highdee.folksocialapi.dto.response.user.ProfileStatsResponse;
 import com.highdee.folksocialapi.enums.ResponseCode;
 import com.highdee.folksocialapi.exceptions.handlers.AuthentionException;
 import com.highdee.folksocialapi.models.auth.User;
@@ -51,5 +52,12 @@ public class ProfileController {
         Set<TagResponse> interests = profileService.listInterest(user);
 
         return ResponseEntity.status(200).body(RestResponse.success(interests));
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<RestResponse<Object>> getProfileStats() throws AuthentionException {
+        User user = authService.getLoggedInUser();
+        ProfileStatsResponse response = profileService.getProfileStats(user.getId());
+        return ResponseEntity.status(200).body(RestResponse.success(response));
     }
 }
