@@ -16,9 +16,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findAllByUser_id(Pageable pageable, Long userId);
     Page<Post> findAllByParent_id(Pageable pageable, Long parentId);
 
-    @Query(value = "SELECT p.* FROM posts p " +
-            "JOIN user_followers uf ON uf.follower_id = :userId " +
-            "WHERE p.user_id = uf.followed_id",
+    @Query(value = "SELECT p.user_id, p.id, p.parent_id, p.content, p.created_at FROM posts p " +
+            "JOIN user_followers uf ON uf.followed_id = user_id " +
+            "WHERE uf.follower_id IN (:userId) AND p.parent_id is NULL",
             nativeQuery = true)
     Page<Post> findAllThroughFollowing(Pageable pageable, @Param("userId") Long userId);
 }
+
