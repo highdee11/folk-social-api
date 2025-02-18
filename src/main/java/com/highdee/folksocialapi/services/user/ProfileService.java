@@ -3,6 +3,8 @@ package com.highdee.folksocialapi.services.user;
 import com.highdee.folksocialapi.dto.request.auth.UpdateUserRequest;
 import com.highdee.folksocialapi.dto.response.post.TagResponse;
 import com.highdee.folksocialapi.dto.response.user.ProfileStatsResponse;
+import com.highdee.folksocialapi.dto.response.user.UserResponse;
+import com.highdee.folksocialapi.exceptions.handlers.CustomException;
 import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.models.post.Tag;
 
@@ -14,4 +16,5 @@ public interface ProfileService {
     Set<TagResponse> listInterest(User user);
     void updateUser(Long userId, UpdateUserRequest request);
     ProfileStatsResponse getProfileStats(Long userId);
+    UserResponse getProfile(String username) throws CustomException;
 }

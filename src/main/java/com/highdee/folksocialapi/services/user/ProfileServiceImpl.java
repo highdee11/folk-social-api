@@ -4,11 +4,14 @@ import com.highdee.folksocialapi.constants.CacheConst;
 import com.highdee.folksocialapi.dto.request.auth.UpdateUserRequest;
 import com.highdee.folksocialapi.dto.response.post.TagResponse;
 import com.highdee.folksocialapi.dto.response.user.ProfileStatsResponse;
+import com.highdee.folksocialapi.dto.response.user.UserResponse;
+import com.highdee.folksocialapi.exceptions.handlers.CustomException;
 import com.highdee.folksocialapi.exceptions.handlers.ResourceNotFoundException;
 import com.highdee.folksocialapi.models.auth.User;
 import com.highdee.folksocialapi.models.post.Tag;
 import com.highdee.folksocialapi.repositories.auth.UserRepository;
 import com.highdee.folksocialapi.services.follow.FollowService;
+import com.highdee.folksocialapi.services.post.post.PostStatService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -24,9 +27,12 @@ public class ProfileServiceImpl implements ProfileService{
 
     private final FollowService followService;
 
-    public ProfileServiceImpl(UserRepository userRepository, FollowService followService) {
+    private final PostStatService postStatService;
+
+    public ProfileServiceImpl(UserRepository userRepository, FollowService followService, PostStatService postStatService) {
         this.userRepository = userRepository;
         this.followService = followService;
+        this.postStatService = postStatService;
     }
 
     @Override
@@ -69,11 +75,19 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
+    public UserResponse getProfile(String username) throws CustomException {
+        User user = userRepository.findByUsername(username);
+        if(user == null) throw new CustomException("No user found with the username: "+username);
+        return new UserResponse(user);
+    }
+
+    @Override
 //    @Cacheable(value = CacheConst.PROFILE_STATS, key = "#userId")
     public ProfileStatsResponse getProfileStats(Long userId) {
         ProfileStatsResponse response = new ProfileStatsResponse();
         response.setFollowers(followService.getUserFollowers(userId));
         response.setFollowing(followService.getUserFollowing(userId));
+        response.setPostCount(postStatService.getUserPostCount(userId));
         return response;
     }
 }

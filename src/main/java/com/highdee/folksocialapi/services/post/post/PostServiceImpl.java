@@ -115,7 +115,6 @@ public class PostServiceImpl implements PostService {
         return savedPost;
     }
 
-
     @Override
     public void delete(Long postId, Long authorId) throws CustomException {
         Post post = postRepository.findById(postId).orElseThrow(ResourceNotFoundException::new);

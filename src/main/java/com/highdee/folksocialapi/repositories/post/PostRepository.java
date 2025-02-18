@@ -21,5 +21,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "WHERE uf.follower_id IN (:userId) AND p.parent_id is NULL",
             nativeQuery = true)
     Page<Post> findAllThroughFollowing(Pageable pageable, @Param("userId") Long userId);
+
+    @Query(value = "SELECT COUNT(posts.id) FROM posts WHERE user_id = :userId",
+            nativeQuery = true)
+    int findUserPostCount(@Param("userId") Long userId);
 }
 

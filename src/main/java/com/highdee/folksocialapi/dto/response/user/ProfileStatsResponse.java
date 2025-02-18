@@ -10,4 +10,5 @@ import java.io.Serializable;
 public class ProfileStatsResponse implements Serializable {
     private int following = 0;
     private int followers = 0;
+    private int postCount = 0;
 }
